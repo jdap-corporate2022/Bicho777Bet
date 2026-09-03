@@ -7,164 +7,225 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #03120a; color: #e2e8f0; font-family: sans-serif; }
-    .gold-gradient { background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%); }
-    .gold-text { color: #facc15; }
-    .card-dark { background-color: #081d12; border: 1px solid #143823; }
-    .bicho-card { transition: transform 0.2s; cursor: pointer; }
-    .bicho-card:hover { transform: translateY(-4px); border-color: #eab308; }
-    .selected { border: 2px solid #facc15 !important; background-color: #143823 !important; }
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+    
+    body { 
+      background-color: #010a04; 
+      color: #ffffff; 
+      font-family: 'Montserrat', sans-serif;
+    }
+    .gold-gradient-text {
+      background: linear-gradient(180deg, #fff3a1 0%, #eab308 50%, #855800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .card-bicho {
+      background: linear-gradient(180deg, #041c0e 0%, #010f07 100%);
+      border: 1.5px solid #0d5423;
+      box-shadow: inset 0 0 10px rgba(0, 255, 68, 0.1);
+    }
+    .card-bicho:hover, .card-bicho.selected {
+      border-color: #facc15;
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.4), inset 0 0 15px rgba(250, 204, 21, 0.2);
+    }
+    .timer-box {
+      background: radial-gradient(circle, #2d0a00 0%, #110300 100%);
+      border: 2px solid #ea580c;
+      box-shadow: 0 0 12px rgba(234, 88, 12, 0.5);
+    }
+    .nav-bottom {
+      background: linear-gradient(180deg, #041f0f 0%, #010a04 100%);
+      border-top: 1px solid #14532d;
+    }
+    .nav-center-btn {
+      background: radial-gradient(circle, #22c55e 0%, #15803d 100%);
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+    }
   </style>
 </head>
-<body class="pb-24">
+<body class="pb-28">
 
-  <!-- Header / Topo -->
-  <header class="bg-[#05180e] border-b border-green-900/50 p-4 sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <i class="fa-solid fa-crown gold-text text-2xl"></i>
-        <span class="text-xl font-black text-white italic tracking-wider">Bicho<span class="gold-text">777</span>Bet</span>
-      </div>
+  <!-- Header Superior -->
+  <header class="p-3 bg-[#021307] border-b border-green-900/60 sticky top-0 z-50">
+    <div class="max-w-md mx-auto flex justify-between items-center">
+      <!-- Menu Hamburguer & Logo -->
       <div class="flex items-center gap-3">
-        <div class="bg-black/60 px-3 py-1.5 rounded-lg border border-green-800 text-right">
-          <p class="text-[10px] text-gray-400">Saldo</p>
-          <p class="text-sm font-bold text-green-400" id="user-saldo">R$ 0,00</p>
+        <i class="fa-solid fa-bars text-yellow-500 text-2xl cursor-pointer"></i>
+        <div>
+          <h1 class="text-2xl font-black italic tracking-wider leading-none gold-gradient-text">
+            Bicho<span class="text-green-500">777</span>Bet
+          </h1>
+          <p class="text-[8px] text-green-400 font-bold tracking-widest uppercase mt-0.5">A sorte é seu melhor palpite!</p>
         </div>
-        <button onclick="abrirModalDeposito()" class="gold-gradient text-black font-bold text-xl w-10 h-10 rounded-lg flex items-center justify-center shadow-lg">+</button>
+      </div>
+
+      <!-- Saldo / Promoções -->
+      <div class="flex items-center gap-2">
+        <div class="bg-[#051f0f] border border-yellow-600/40 rounded-lg p-1.5 px-2.5 text-right">
+          <span class="text-[9px] text-gray-400 block font-bold leading-tight">Saldo</span>
+          <span class="text-xs font-black text-white" id="user-saldo">R$ 350,00</span>
+        </div>
+        <button onclick="abrirModalDeposito()" class="bg-green-600 hover:bg-green-500 text-white font-black w-8 h-8 rounded-lg text-lg flex items-center justify-center shadow-md shadow-green-900/50">+</button>
       </div>
     </div>
   </header>
 
-  <!-- Banner & Métricas -->
-  <main class="max-w-6xl mx-auto p-4">
-    <div class="grid grid-cols-2 gap-3 mb-6">
-      <div class="card-dark p-3 rounded-xl flex items-center gap-3">
-        <i class="fa-solid fa-trophy gold-text text-2xl"></i>
-        <div>
-          <p class="text-[10px] text-gray-400">PRÊMIO ACUMULADO</p>
-          <p class="text-base font-black gold-text" id="pote-acumulado">R$ 500,00</p>
+  <main class="max-w-md mx-auto p-3 space-y-3">
+
+    <!-- Sub-header: Resultado / Próximo Sorteio / Como Jogar -->
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-[#041a0d] border border-green-900/60 rounded-xl p-2 text-center flex flex-col justify-center items-center">
+        <i class="fa-solid fa-trophy text-yellow-500 text-lg mb-0.5"></i>
+        <span class="text-[9px] font-bold text-white block">RESULTADO</span>
+        <span class="text-[7px] text-gray-400 block">Ver último sorteio</span>
+      </div>
+
+      <div class="timer-box rounded-xl p-2 text-center flex flex-col justify-center items-center">
+        <span class="text-[8px] font-black text-yellow-500 uppercase tracking-wider block">PRÓXIMO SORTEIO</span>
+        <span class="text-[8px] font-bold text-orange-400 block">EM BREVE</span>
+        <span class="text-sm font-black text-yellow-400 font-mono leading-none mt-0.5">01:25</span>
+      </div>
+
+      <div class="bg-[#041a0d] border border-green-900/60 rounded-xl p-2 text-center flex flex-col justify-center items-center">
+        <i class="fa-solid fa-book-open text-yellow-500 text-lg mb-0.5"></i>
+        <span class="text-[9px] font-bold text-white block">COMO JOGAR?</span>
+        <span class="text-[7px] text-gray-400 block">Aprenda as regras</span>
+      </div>
+    </div>
+
+    <!-- Banner Principal -->
+    <div class="relative rounded-2xl overflow-hidden border border-yellow-500/40 p-4 bg-gradient-to-r from-green-950 via-emerald-900 to-black text-center shadow-xl">
+      <p class="text-xs font-bold text-yellow-300 italic">Aposte, confie e comemore!</p>
+      <h2 class="text-xl font-black italic gold-gradient-text uppercase leading-tight my-1">
+        AQUI SUA SORTE PODE MUDAR TUDO!
+      </h2>
+      <div class="inline-block bg-black/60 border border-green-500/50 rounded-full px-3 py-1 text-[9px] font-bold text-green-300 uppercase mt-1">
+        BICHOS • MILHARES • CENTENAS • DEZENAS • GRUPOS
+      </div>
+    </div>
+
+    <!-- Título da Seção -->
+    <div class="flex items-center justify-between px-1">
+      <span class="text-[10px] font-bold text-green-400">◄━━ ESCOLHA SEU BICHO ━━►</span>
+    </div>
+
+    <!-- Grid dos 25 Bichos -->
+    <div class="grid grid-cols-5 gap-1.5" id="grid-bichos">
+      <!-- Inserido dinamicamente via Javascript -->
+    </div>
+
+    <!-- Tipo da Aposta -->
+    <div class="pt-2">
+      <span class="text-[10px] font-bold text-green-400 block text-center mb-2">◄━━ ESCOLHA O TIPO DA SUA APOSTA ━━►</span>
+      <div class="grid grid-cols-4 gap-1.5 text-center text-[9px] font-bold">
+        <div class="bg-[#041a0d] border border-green-500 p-2 rounded-xl text-green-400">
+          <i class="fa-solid fa-clover text-sm block mb-0.5"></i> GRUPO
+        </div>
+        <div class="bg-[#041a0d] border border-green-900 p-2 rounded-xl text-gray-300">
+          <i class="fa-solid fa-dice text-sm block mb-0.5"></i> DEZENA
+        </div>
+        <div class="bg-[#041a0d] border border-green-900 p-2 rounded-xl text-gray-300">
+          <i class="fa-solid fa-crown text-sm block mb-0.5"></i> CENTENA
+        </div>
+        <div class="bg-[#041a0d] border border-green-900 p-2 rounded-xl text-gray-300">
+          <i class="fa-solid fa-sack-dollar text-sm block mb-0.5"></i> MILHAR
         </div>
       </div>
-      <div class="card-dark p-3 rounded-xl flex items-center gap-3">
-        <i class="fa-solid fa-clock text-green-400 text-2xl"></i>
-        <div>
-          <p class="text-[10px] text-gray-400">SORTEIO DIÁRIO</p>
-          <p class="text-sm font-bold text-white">HOJE ÀS 19:30h</p>
-        </div>
+    </div>
+
+    <!-- Grade de Valores Permitidos -->
+    <div class="pt-2">
+      <span class="text-[10px] font-bold text-yellow-400 block mb-1">VALORES FIXOS PERMITIDOS (R$):</span>
+      <div class="grid grid-cols-7 gap-1">
+        <button onclick="selecionarValor(3)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 3</button>
+        <button onclick="selecionarValor(5)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 5</button>
+        <button onclick="selecionarValor(7)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 7</button>
+        <button onclick="selecionarValor(10)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 10</button>
+        <button onclick="selecionarValor(15)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 15</button>
+        <button onclick="selecionarValor(20)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 20</button>
+        <button onclick="selecionarValor(50)" class="bg-[#041a0d] border border-yellow-500/50 text-yellow-400 font-bold py-2 rounded-lg text-xs">R$ 50</button>
       </div>
     </div>
 
-    <!-- Banner Telegram -->
-    <a href="https://t.me" target="_blank" class="card-dark p-4 rounded-xl mb-6 flex justify-between items-center border-blue-500/30 bg-blue-950/20">
-      <div class="flex items-center gap-3">
-        <i class="fa-brands fa-telegram text-blue-400 text-3xl"></i>
-        <div>
-          <p class="text-xs font-bold text-white">Grupo Oficial no Telegram</p>
-          <p class="text-[10px] text-gray-400">Acompanhe resultados e palpites</p>
-        </div>
-      </div>
-      <span class="text-xs bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg">Entrar</span>
-    </a>
-
-    <!-- Seleção do Tipo de Aposta -->
-    <div class="mb-4">
-      <p class="text-xs font-bold text-gray-300 mb-2">1. ESCOLHA O TIPO DA SUA APOSTA:</p>
-      <div class="grid grid-cols-2 gap-2">
-        <button id="btn-tipo-grupo" onclick="selecionarTipo('grupo')" class="py-2.5 rounded-xl text-xs font-bold border border-green-700 bg-green-900/40 text-white">GRUPO (01 a 25)</button>
-        <button id="btn-tipo-dezena" onclick="selecionarTipo('dezena')" class="py-2.5 rounded-xl text-xs font-bold border border-gray-700 bg-black/40 text-gray-400">DEZENA (00 a 99)</button>
-      </div>
-    </div>
-
-    <!-- Grade de Valores Fixos -->
-    <div class="mb-6">
-      <p class="text-xs font-bold text-gray-300 mb-2">2. ESCOLHA O VALOR DO PALPITE (R$):</p>
-      <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
-        <button onclick="selecionarValor(3)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 3</button>
-        <button onclick="selecionarValor(5)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 5</button>
-        <button onclick="selecionarValor(7)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 7</button>
-        <button onclick="selecionarValor(10)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 10</button>
-        <button onclick="selecionarValor(15)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 15</button>
-        <button onclick="selecionarValor(20)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 20</button>
-        <button onclick="selecionarValor(50)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 50</button>
-      </div>
-    </div>
-
-    <!-- Tabela dos 25 Bichos -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8" id="grid-bichos">
-      <!-- Gerado via JavaScript -->
-    </div>
-
-    <!-- Botão de Apostar -->
-    <button onclick="confirmarAposta()" class="w-full gold-gradient text-black font-black text-base py-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
-      <i class="fa-solid fa-check-circle"></i> CONFIRMAR APOSTA
-    </button>
   </main>
 
-  <!-- Navegação Inferior -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-[#05180e] border-t border-green-900/50 p-2 flex justify-around text-center z-50">
-    <a href="#" class="text-xs gold-text font-bold"><i class="fa-solid fa-house text-base block"></i> Início</a>
+  <!-- Navegação Inferior (Barra de Ações) -->
+  <nav class="fixed bottom-0 left-0 right-0 nav-bottom p-2 z-50">
+    <div class="max-w-md mx-auto flex justify-around items-end text-center">
+      <a href="#" class="text-green-400 text-[10px] font-bold flex flex-col items-center">
+        <i class="fa-solid fa-house text-lg mb-0.5"></i> Início
+      </a>
+      <a href="#" class="text-gray-400 text-[10px] font-bold flex flex-col items-center">
+        <i class="fa-solid fa-file-lines text-lg mb-0.5"></i> Minhas Apostas
+      </a>
+      
+      <!-- Botão Central Destacado -->
+      <div class="relative -top-4">
+        <button class="nav-center-btn w-14 h-14 rounded-full border-2 border-yellow-400 flex items-center justify-center text-white text-xl shadow-lg">
+          <i class="fa-solid fa-clover"></i>
+        </button>
+        <span class="text-[9px] font-bold text-yellow-400 block mt-1">Apostar</span>
+      </div>
+
+      <a href="#" class="text-gray-400 text-[10px] font-bold flex flex-col items-center">
+        <i class="fa-solid fa-clock-rotate-left text-lg mb-0.5"></i> Resultados
+      </a>
+      <a href="admin.html" class="text-gray-400 text-[10px] font-bold flex flex-col items-center">
+        <i class="fa-solid fa-user-gear text-lg mb-0.5"></i> Painel Admin
+      </a>
+    </div>
   </nav>
 
   <script>
     const bichos = [
-      { num: '01', nome: 'AVESTRUZ', dezenas: '01, 02, 03, 04' },
-      { num: '02', nome: 'ÁGUIA', dezenas: '05, 06, 07, 08' },
-      { num: '03', nome: 'BURRO', dezenas: '09, 10, 11, 12' },
-      { num: '04', nome: 'BORBOLETA', dezenas: '13, 14, 15, 16' },
-      { num: '05', nome: 'CACHORRO', dezenas: '17, 18, 19, 20' },
-      { num: '06', nome: 'CABRA', dezenas: '21, 22, 23, 24' },
-      { num: '07', nome: 'CARNEIRO', dezenas: '25, 26, 27, 28' },
-      { num: '08', nome: 'CAMELO', dezenas: '29, 30, 31, 32' },
-      { num: '09', nome: 'COBRA', dezenas: '33, 34, 35, 36' },
-      { num: '10', nome: 'COELHO', dezenas: '37, 38, 39, 40' },
-      { num: '11', nome: 'CAVALO', dezenas: '41, 42, 43, 44' },
-      { num: '12', nome: 'ELEFANTE', dezenas: '45, 46, 47, 48' },
-      { num: '13', nome: 'GALO', dezenas: '49, 50, 51, 52' },
-      { num: '14', nome: 'GATO', dezenas: '53, 54, 55, 56' },
-      { num: '15', nome: 'JACARÉ', dezenas: '57, 58, 59, 60' },
-      { num: '16', nome: 'LEÃO', dezenas: '61, 62, 63, 64' },
-      { num: '17', nome: 'MACACO', dezenas: '65, 66, 67, 68' },
-      { num: '18', nome: 'PORCO', dezenas: '69, 70, 71, 72' },
-      { num: '19', nome: 'PAVÃO', dezenas: '73, 74, 75, 76' },
-      { num: '20', nome: 'PERU', dezenas: '77, 78, 79, 80' },
-      { num: '21', nome: 'TOURO', dezenas: '81, 82, 83, 84' },
-      { num: '22', nome: 'TIGRE', dezenas: '85, 86, 87, 88' },
-      { num: '23', nome: 'URSO', dezenas: '89, 90, 91, 92' },
-      { num: '24', nome: 'VEADO', dezenas: '93, 94, 95, 96' },
-      { num: '25', nome: 'VACA', dezenas: '97, 98, 99, 00' }
+      { num: '01', nome: 'AVESTRUZ', dezenas: '01 02 03 04', img: 'https://images.unsplash.com/photo-1551884831-bbf3cdc6469e?w=150&auto=format&fit=crop&q=60' },
+      { num: '02', nome: 'ÁGUIA', dezenas: '05 06 07 08', img: 'https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=150&auto=format&fit=crop&q=60' },
+      { num: '03', nome: 'BURRO', dezenas: '09 10 11 12', img: 'https://images.unsplash.com/photo-1551133988-ad26c0222122?w=150&auto=format&fit=crop&q=60' },
+      { num: '04', nome: 'BORBOLETA', dezenas: '13 14 15 16', img: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?w=150&auto=format&fit=crop&q=60' },
+      { num: '05', nome: 'CACHORRO', dezenas: '17 18 19 20', img: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&auto=format&fit=crop&q=60' },
+      { num: '06', nome: 'CABRA', dezenas: '21 22 23 24', img: 'https://images.unsplash.com/photo-1524024973431-2ad916746881?w=150&auto=format&fit=crop&q=60' },
+      { num: '07', nome: 'CARNEIRO', dezenas: '25 26 27 28', img: 'https://images.unsplash.com/photo-1484557052118-f32bd25b45b5?w=150&auto=format&fit=crop&q=60' },
+      { num: '08', nome: 'CAMELO', dezenas: '29 30 31 32', img: 'https://images.unsplash.com/photo-1563299796-17596ed6b017?w=150&auto=format&fit=crop&q=60' },
+      { num: '09', nome: 'COBRA', dezenas: '33 34 35 36', img: 'https://images.unsplash.com/photo-1531386151447-fd76ad50012f?w=150&auto=format&fit=crop&q=60' },
+      { num: '10', nome: 'COELHO', dezenas: '37 38 39 40', img: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=150&auto=format&fit=crop&q=60' },
+      { num: '11', nome: 'CAVALO', dezenas: '41 42 43 44', img: 'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=150&auto=format&fit=crop&q=60' },
+      { num: '12', nome: 'ELEFANTE', dezenas: '45 46 47 48', img: 'https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=150&auto=format&fit=crop&q=60' },
+      { num: '13', nome: 'GALO', dezenas: '49 50 51 52', img: 'https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=150&auto=format&fit=crop&q=60' },
+      { num: '14', nome: 'GATO', dezenas: '53 54 55 56', img: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&auto=format&fit=crop&q=60' },
+      { num: '15', nome: 'JACARÉ', dezenas: '57 58 59 60', img: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=150&auto=format&fit=crop&q=60' },
+      { num: '16', nome: 'LEÃO', dezenas: '61 62 63 64', img: 'https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=150&auto=format&fit=crop&q=60' },
+      { num: '17', nome: 'MACACO', dezenas: '65 66 67 68', img: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=150&auto=format&fit=crop&q=60' },
+      { num: '18', nome: 'PORCO', dezenas: '69 70 71 72', img: 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=150&auto=format&fit=crop&q=60' },
+      { num: '19', nome: 'PAVÃO', dezenas: '73 74 75 76', img: 'https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=150&auto=format&fit=crop&q=60' },
+      { num: '20', nome: 'PERU', dezenas: '77 78 79 80', img: 'https://images.unsplash.com/photo-1527118732049-c88155f2107c?w=150&auto=format&fit=crop&q=60' },
+      { num: '21', nome: 'TOURO', dezenas: '81 82 83 84', img: 'https://images.unsplash.com/photo-1545468800-85cc9bc6ecf7?w=150&auto=format&fit=crop&q=60' },
+      { num: '22', nome: 'TIGRE', dezenas: '85 86 87 88', img: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=150&auto=format&fit=crop&q=60' },
+      { num: '23', nome: 'URSO', dezenas: '89 90 91 92', img: 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=150&auto=format&fit=crop&q=60' },
+      { num: '24', nome: 'VEADO', dezenas: '93 94 95 96', img: 'https://images.unsplash.com/photo-1484406566174-9da000fda645?w=150&auto=format&fit=crop&q=60' },
+      { num: '25', nome: 'VACA', dezenas: '97 98 99 00', img: 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?w=150&auto=format&fit=crop&q=60' }
     ];
-
-    let escolhaAposta = null;
-    let valorSelecionado = 3;
 
     function renderBichos() {
       const grid = document.getElementById('grid-bichos');
       grid.innerHTML = bichos.map(b => `
-        <div onclick="selecionarBicho('${b.num}')" id="bicho-${b.num}" class="bicho-card card-dark p-3 rounded-xl text-center">
-          <span class="text-xs font-bold gold-text block">${b.num}</span>
-          <p class="text-xs font-black text-white my-1">${b.nome}</p>
-          <span class="text-[9px] text-gray-400 block">${b.dezenas}</span>
+        <div onclick="selecionarBicho('${b.num}')" id="bicho-${b.num}" class="card-bicho p-1.5 rounded-xl text-center flex flex-col justify-between items-center h-28 cursor-pointer">
+          <span class="text-xs font-black text-white self-start leading-none">${b.num}</span>
+          <img src="${b.img}" alt="${b.nome}" class="w-12 h-10 object-cover rounded-md my-0.5 border border-green-800">
+          <div>
+            <p class="text-[9px] font-black text-yellow-400 leading-none uppercase">${b.nome}</p>
+            <span class="text-[7px] font-bold text-gray-400 leading-none block mt-0.5">${b.dezenas}</span>
+          </div>
         </div>
       `).join('');
     }
 
     function selecionarBicho(num) {
-      document.querySelectorAll('.bicho-card').forEach(c => c.classList.remove('selected'));
+      document.querySelectorAll('.card-bicho').forEach(c => c.classList.remove('selected'));
       document.getElementById(`bicho-${num}`).classList.add('selected');
-      escolhaAposta = num;
     }
 
-    function selecionarValor(val) {
-      valorSelecionado = val;
-      alert(`Valor de R$ ${val},00 selecionado.`);
-    }
-
-    function confirmarAposta() {
-      if(!escolhaAposta) {
-        alert("Por favor, selecione um Bicho ou Dezena antes de confirmar!");
-        return;
-      }
-      alert(`Aposta confirmada no Bicho ${escolhaAposta} no valor de R$ ${valorSelecionado},00!`);
+    function selecionarValor(v) {
+      alert(`Valor selecionado: R$ ${v},00`);
     }
 
     renderBichos();
