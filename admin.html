@@ -7,17 +7,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap');
     body { background-color: #010803; color: #ffffff; font-family: 'Montserrat', sans-serif; }
     .gold-gradient { background: linear-gradient(180deg, #fff3a1 0%, #facc15 50%, #855800 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .gold-btn { background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%); color: #000; font-weight: 900; }
-    .card-dark { background-color: #03170a; border: 1px solid rgba(34, 197, 94, 0.2); }
   </style>
 </head>
-<body class="p-3 max-w-6xl mx-auto pb-16">
+<body class="p-3 max-w-3xl mx-auto pb-10">
 
+  <!-- TELA DE LOGIN -->
   <div id="tela-login" class="flex flex-col items-center justify-center min-h-[85vh]">
-    <div class="card-dark border-yellow-500/80 rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
+    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
       <i class="fa-solid fa-user-shield text-yellow-400 text-4xl mb-3"></i>
       <h2 class="text-xl font-black uppercase gold-gradient mb-1">Acesso Restrito ADM</h2>
       <p class="text-xs text-gray-400 mb-5">Painel de Controle Bicho777Bet</p>
@@ -25,12 +25,14 @@
       <div class="space-y-3 text-left">
         <div>
           <label class="block text-[11px] font-bold text-gray-300 mb-1">Usuário:</label>
-          <input type="text" id="admin-user" placeholder="admin" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
+          <input type="text" id="admin-user" placeholder="Digite o usuário" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
         </div>
+
         <div>
           <label class="block text-[11px] font-bold text-gray-300 mb-1">Senha:</label>
-          <input type="password" id="admin-pass" placeholder="123456" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
+          <input type="password" id="admin-pass" placeholder="Digite a senha" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
         </div>
+
         <button onclick="autenticarAdmin()" class="w-full gold-btn py-3 rounded-xl text-sm font-black uppercase tracking-wider mt-2 shadow-lg">
           ENTRAR NO PAINEL
         </button>
@@ -38,193 +40,114 @@
     </div>
   </div>
 
-  <div id="painel-admin" class="hidden space-y-4">
+  <!-- PAINEL ADMINISTRATIVO COMPLETO -->
+  <div id="painel-admin" class="hidden space-y-5">
     
-    <header class="card-dark border-yellow-500/50 p-4 rounded-2xl flex justify-between items-center shadow-lg">
-      <div class="flex items-center gap-3">
-        <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-        <div>
-          <h1 class="text-lg font-black gold-gradient uppercase leading-tight">Painel Administrativo Bicho777Bet</h1>
-          <p class="text-[10px] text-green-400 font-bold uppercase">Controle Financeiro 70/30, Apuração do Sorteio e Gestão de Banca</p>
-        </div>
+    <!-- Topo Admin -->
+    <header class="bg-[#03170a] border border-yellow-500/50 p-4 rounded-2xl flex justify-between items-center shadow-lg">
+      <div>
+        <h1 class="text-lg font-black gold-gradient uppercase leading-tight">PAINEL DE CONTROLE ADM</h1>
+        <p class="text-[10px] text-green-400 font-bold uppercase">Gestão Global da Banca</p>
       </div>
-      <div class="flex gap-2">
-        <button onclick="carregarDadosAdmin()" class="bg-green-800/80 hover:bg-green-700 border border-green-500 text-green-200 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
-          <i class="fa-solid fa-rotate-right"></i> Atualizar
-        </button>
-        <button onclick="logoutAdmin()" class="bg-red-900/60 hover:bg-red-800 border border-red-500 text-red-200 text-xs font-bold px-3 py-2 rounded-xl">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
-      </div>
+      <button onclick="logoutAdmin()" class="bg-red-900/60 border border-red-500 text-red-200 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-red-800">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
+      </button>
     </header>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-      <div class="card-dark p-3 rounded-xl">
-        <span class="text-[10px] text-gray-400 font-bold block uppercase">Arrecadação do Ciclo</span>
-        <span id="arrecadacao-ciclo" class="text-xl font-black text-white">R$ 0,00</span>
-        <span id="qtd-apostas-ciclo" class="text-[10px] text-gray-500 block">0 apostas registradas</span>
+    <!-- Resumo de Estatísticas Gerais -->
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-[#041a0d] border border-green-700/60 p-3 rounded-xl text-center">
+        <span class="text-[9px] text-gray-400 font-bold block uppercase">Apostas Hoje</span>
+        <span id="total-apostas" class="text-lg font-black text-yellow-400">0</span>
       </div>
-
-      <div class="card-dark p-3 rounded-xl">
-        <span class="text-[10px] text-gray-400 font-bold block uppercase">Receita ADM (30%)</span>
-        <span id="receita-adm" class="text-xl font-black text-green-400">R$ 0,00</span>
-        <span id="historico-adm" class="text-[10px] text-gray-500 block">Total histórico: R$ 0,00</span>
+      <div class="bg-[#041a0d] border border-green-700/60 p-3 rounded-xl text-center">
+        <span class="text-[9px] text-gray-400 font-bold block uppercase">Entradas (R$)</span>
+        <span id="volume-total" class="text-lg font-black text-green-400">R$ 0,00</span>
       </div>
-
-      <div class="card-dark p-3 rounded-xl">
-        <span class="text-[10px] text-gray-400 font-bold block uppercase">Pote de Prêmios (70%)</span>
-        <span id="pote-premios" class="text-xl font-black text-green-400">R$ 500,00</span>
-        <span id="premios-pagos" class="text-[10px] text-gray-500 block">Prêmios já pagos: R$ 0,00</span>
-      </div>
-
-      <div class="card-dark p-3 rounded-xl">
-        <span class="text-[10px] text-gray-400 font-bold block uppercase">Saques Pendentes</span>
-        <span id="saques-pendentes-qtd" class="text-xl font-black text-yellow-400">0</span>
-        <span id="saques-pendentes-val" class="text-[10px] text-gray-500 block">Montante: R$ 0,00</span>
+      <div class="bg-[#041a0d] border border-green-700/60 p-3 rounded-xl text-center">
+        <span class="text-[9px] text-gray-400 font-bold block uppercase">Lucro Estimado</span>
+        <span id="lucro-total" class="text-lg font-black text-yellow-500">R$ 0,00</span>
       </div>
     </div>
 
-    <div class="card-dark p-3 rounded-xl flex justify-between items-center border-yellow-500/30">
-      <div class="flex items-center gap-2">
-        <i class="fa-solid fa-users text-yellow-400"></i>
-        <span class="text-xs font-bold uppercase text-gray-300">Monitoramento de Apostadores:</span>
+    <!-- MÓDULO 1: LANÇAR RESULTADOS DO SORTEIO -->
+    <section class="bg-[#03170a] border border-yellow-500/40 rounded-2xl p-4 shadow-xl space-y-3">
+      <div class="flex items-center gap-2 border-b border-green-900/80 pb-2">
+        <i class="fa-solid fa-trophy text-yellow-400"></i>
+        <h3 class="text-xs font-black uppercase text-yellow-400">1. Lançar Resultado do Sorteio</h3>
       </div>
-      <div class="flex gap-4 text-xs font-black">
-        <span class="text-green-400"><i class="fa-solid fa-circle text-[8px]"></i> Jogadores Online: <span id="online-count">1</span></span>
-        <span class="text-gray-400"><i class="fa-solid fa-circle text-[8px]"></i> Cadastrados Totais: <span id="total-users-count">1</span></span>
-      </div>
-    </div>
-
-    <section class="card-dark rounded-2xl p-4 shadow-xl border-yellow-500/40">
-      <div class="flex justify-between items-center border-b border-green-900/80 pb-2 mb-3">
-        <div class="flex items-center gap-2">
-          <span class="bg-yellow-500 text-black text-[10px] font-black px-2 py-0.5 rounded">Ciclo Atual #777</span>
-          <h3 class="text-xs font-black uppercase text-yellow-400">Controle e Apuração do Sorteio Diário (19:30h)</h3>
+      
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="block text-[10px] text-gray-300 font-bold mb-1">Prêmio 1º Lugar (Milhar):</label>
+          <input type="text" id="res-1" placeholder="Ex: 5832" maxlength="4" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-yellow-400">
         </div>
-        <div class="text-right">
-          <span class="text-[10px] text-gray-400 block">POTE A DISTRIBUIR:</span>
-          <span id="pote-distribuir-banner" class="text-sm font-black text-green-400">R$ 500,00</span>
+        <div>
+          <label class="block text-[10px] text-gray-300 font-bold mb-1">Prêmio 2º Lugar:</label>
+          <input type="text" id="res-2" placeholder="Ex: 1205" maxlength="4" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-white">
         </div>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-3 mb-3">
-        <div>
-          <label class="block text-[10px] text-gray-300 font-bold mb-1">1º Prêmio (Milhar/Grupo):</label>
-          <input type="text" id="premio-1" placeholder="Ex: 5832" maxlength="4" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-yellow-400">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-300 font-bold mb-1">2º Prêmio:</label>
-          <input type="text" id="premio-2" placeholder="Ex: 1205" maxlength="4" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-white">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-300 font-bold mb-1">3º Prêmio:</label>
-          <input type="text" id="premio-3" placeholder="Ex: 8940" maxlength="4" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-white">
-        </div>
-      </div>
-
-      <button onclick="realizarSorteio()" class="w-full gold-btn py-3 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg flex items-center justify-center gap-2">
-        <i class="fa-solid fa-play"></i> REALIZAR SORTEIO AGORA E MIGRAR PARA PRÓXIMO CICLO
+      <button onclick="salvarResultado()" class="w-full bg-green-600 hover:bg-green-500 text-white font-black py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md">
+        PUBLICAR RESULTADO OFICIAL
       </button>
     </section>
 
-    <section class="card-dark rounded-2xl p-4 shadow-xl">
-      <h3 class="text-xs font-black uppercase text-yellow-400 mb-3"><i class="fa-solid fa-money-bill-transfer"></i> Solicitações de Saque Pix Pendentes</h3>
-      <div id="container-saques" class="text-xs text-gray-400 text-center py-3 border border-dashed border-green-900 rounded-xl">
-        Nenhuma solicitação de saque Pix registrada.
+    <!-- MÓDULO 2: GESTÃO DE SALDO DOS JOGADORES -->
+    <section class="bg-[#03170a] border border-green-800 rounded-2xl p-4 shadow-xl space-y-3">
+      <div class="flex items-center gap-2 border-b border-green-900/80 pb-2">
+        <i class="fa-solid fa-wallet text-green-400"></i>
+        <h3 class="text-xs font-black uppercase text-green-400">2. Alterar Saldo do Jogador</h3>
       </div>
-    </section>
 
-    <section class="card-dark rounded-2xl p-4 shadow-xl space-y-3">
-      <h3 class="text-xs font-black uppercase text-green-400"><i class="fa-solid fa-wallet"></i> Gerenciamento de Saldo de Jogador</h3>
-      <div class="grid md:grid-cols-2 gap-3">
+      <div class="grid grid-cols-2 gap-2">
         <div>
-          <label class="block text-[10px] text-gray-300 font-bold mb-1">Nome/ID do Apostador:</label>
+          <label class="block text-[10px] text-gray-300 font-bold mb-1">ID / Telefone Jogador:</label>
           <input type="text" id="user-id" placeholder="Ex: Jogador 01" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-white">
         </div>
         <div>
-          <label class="block text-[10px] text-gray-300 font-bold mb-1">Novo Saldo Carteira (R$):</label>
-          <input type="number" id="novo-saldo" placeholder="Ex: 350.00" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-green-400">
+          <label class="block text-[10px] text-gray-300 font-bold mb-1">Novo Saldo (R$):</label>
+          <input type="number" id="novo-saldo" placeholder="Ex: 500" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-green-400">
         </div>
       </div>
-      <button onclick="atualizarSaldoJogador()" class="w-full bg-green-600 hover:bg-green-500 text-white py-2.5 rounded-xl text-xs font-black uppercase tracking-wider">
-        ATUALIZAR SALDO DA CARTEIRA
+
+      <button onclick="atualizarSaldoJogador()" class="w-full gold-btn py-2.5 rounded-xl text-xs font-black uppercase tracking-wider">
+        ATUALIZAR SALDO
       </button>
     </section>
 
-    <section class="card-dark rounded-2xl p-4 shadow-xl">
-      <div class="flex flex-col md:flex-row justify-between md:items-center gap-2 mb-3">
-        <h3 class="text-xs font-black uppercase text-yellow-400"><i class="fa-solid fa-ticket"></i> Apostas Registradas no Sistema</h3>
-        <input type="text" id="busca-aposta" onkeyup="filtrarApostas()" placeholder="Buscar por apostador, bicho..." class="bg-[#010b04] border border-green-800 rounded-lg p-1.5 px-3 text-xs text-white w-full md:w-64 focus:outline-none focus:border-yellow-400">
+    <!-- MÓDULO 3: TABELA DE APOSTAS REGISTRADAS -->
+    <section class="bg-[#03170a] border border-green-800 rounded-2xl p-4 shadow-xl">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-xs font-black uppercase text-yellow-400"><i class="fa-solid fa-list-check"></i> 3. Apostas Realizadas em Tempo Real</h3>
+        <button onclick="carregarApostasAdmin()" class="text-[10px] bg-green-800/60 text-green-300 font-bold px-2.5 py-1 rounded-lg border border-green-600">
+          <i class="fa-solid fa-rotate-right"></i> Atualizar
+        </button>
       </div>
 
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="border-b border-green-900 text-[10px] text-gray-400 uppercase">
-              <th class="p-2">Ciclo</th>
-              <th class="p-2">Apostador</th>
+              <th class="p-2">Data/Hora</th>
               <th class="p-2">Tipo</th>
-              <th class="p-2">Escolha</th>
-              <th class="p-2">Valor Total</th>
-              <th class="p-2">70% Pote</th>
-              <th class="p-2">30% ADM</th>
+              <th class="p-2">Palpite</th>
+              <th class="p-2">Valor</th>
               <th class="p-2 text-center">Ações</th>
             </tr>
           </thead>
           <tbody id="tabela-apostas-body" class="text-xs text-gray-200">
-            </tbody>
+            <!-- Linhas preenchidas via JavaScript -->
+          </tbody>
         </table>
       </div>
-    </section>
-
-    <section class="card-dark rounded-2xl p-4 shadow-xl">
-      <h3 class="text-xs font-black uppercase text-yellow-400 mb-3"><i class="fa-solid fa-sliders"></i> Cotações / Multiplicadores de Prêmios</h3>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Grupo (x):</label>
-          <input type="number" id="cot-grupo" value="18" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 font-bold text-yellow-400">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Dezena (x):</label>
-          <input type="number" id="cot-dezena" value="60" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 font-bold text-yellow-400">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Centena (x):</label>
-          <input type="number" id="cot-centena" value="600" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 font-bold text-yellow-400">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Milhar (x):</label>
-          <input type="number" id="cot-milhar" value="4000" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 font-bold text-yellow-400">
-        </div>
-      </div>
-    </section>
-
-    <section class="card-dark rounded-2xl p-4 shadow-xl">
-      <h3 class="text-xs font-black uppercase text-yellow-400 mb-3"><i class="fa-solid fa-gear"></i> Configurações Gerais do Sistema</h3>
-      <div class="grid md:grid-cols-3 gap-3 mb-3">
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Link do Grupo no Telegram:</label>
-          <input type="text" id="cfg-telegram" value="https://t.me/bicho777bet_oficial" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Horário do Sorteio Diário:</label>
-          <input type="text" id="cfg-horario" value="19:30" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-[10px] text-gray-400 font-bold mb-1">Pote Base Inicial de Semente (R$):</label>
-          <input type="number" id="cfg-pote-base" value="500" class="w-full bg-[#010b04] border border-green-800 rounded-lg p-2 text-xs text-white">
-        </div>
-      </div>
-      <button onclick="salvarConfiguracoes()" class="w-full bg-green-700 hover:bg-green-600 text-white font-black py-2 rounded-xl text-xs uppercase tracking-wider">
-        Salvar Configurações Gerais
-      </button>
     </section>
 
   </div>
 
   <script>
-    const ADMIN_USER = "jcmonte";
-    const ADMIN_PASS = "@Painel_adm15082015";
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "Painel@15082015";
 
     window.onload = function() {
       if (sessionStorage.getItem("admin_autenticado") === "true") {
@@ -233,13 +156,14 @@
     };
 
     function autenticarAdmin() {
-      const u = document.getElementById('admin-user').value.trim();
-      const p = document.getElementById('admin-pass').value.trim();
-      if (u === ADMIN_USER && p === ADMIN_PASS) {
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value.trim();
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
         sessionStorage.setItem("admin_autenticado", "true");
         exibirPainelAdmin();
       } else {
-        alert("❌ Usuário ou senha inválidos!");
+        alert("❌ Usuário ou Senha incorretos!");
       }
     }
 
@@ -252,38 +176,31 @@
     function exibirPainelAdmin() {
       document.getElementById('tela-login').classList.add('hidden');
       document.getElementById('painel-admin').classList.remove('hidden');
-      carregarDadosAdmin();
+      carregarApostasAdmin();
     }
 
-    function carregarDadosAdmin() {
+    function carregarApostasAdmin() {
       const apostas = JSON.parse(localStorage.getItem('apostas_bicho777') || '[]');
       const tbody = document.getElementById('tabela-apostas-body');
       tbody.innerHTML = '';
 
-      let totalArrecadado = 0;
+      let totalValor = 0;
 
       if (apostas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-500 text-xs font-bold">Nenhuma aposta registrada até o momento.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 text-xs font-bold">Nenhuma aposta registrada ainda.</td></tr>`;
       } else {
-        apostas.slice().reverse().forEach((ap, idx) => {
-          const val = parseFloat(ap.valor || 0);
-          totalArrecadado += val;
-          const val70 = (val * 0.7).toFixed(2);
-          const val30 = (val * 0.3).toFixed(2);
-          const nomeApostador = ap.apostador || ap.usuario || "Jogador 01";
+        apostas.slice().reverse().forEach((aposta) => {
+          totalValor += Number(aposta.valor);
 
           const tr = document.createElement('tr');
           tr.className = "border-b border-green-950 hover:bg-[#052b12]/50";
           tr.innerHTML = `
-            <td class="p-2 text-[10px] text-gray-400">#777</td>
-            <td class="p-2 font-bold text-white">${nomeApostador}</td>
-            <td class="p-2 font-bold text-yellow-400">${ap.tipo}</td>
-            <td class="p-2 font-black text-white">${ap.palpite || ap.escolha}</td>
-            <td class="p-2 font-bold text-green-400">R$ ${val.toFixed(2)}</td>
-            <td class="p-2 text-gray-300">R$ ${val70}</td>
-            <td class="p-2 text-gray-300">R$ ${val30}</td>
+            <td class="p-2 text-[10px] text-gray-400">${aposta.data}</td>
+            <td class="p-2 font-bold text-yellow-400">${aposta.tipo}</td>
+            <td class="p-2 font-black text-white">${aposta.palpite}</td>
+            <td class="p-2 font-bold text-green-400">R$ ${aposta.valor},00</td>
             <td class="p-2 text-center">
-              <button onclick="deletarAposta(${ap.id || idx})" class="text-red-400 hover:text-red-200 text-xs p-1">
+              <button onclick="deletarAposta(${aposta.id})" class="text-red-400 hover:text-red-200 text-xs p-1">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </td>
@@ -292,60 +209,37 @@
         });
       }
 
-      // Atualização dos Painéis de Cálculo 70/30
-      const recAdm = totalArrecadado * 0.3;
-      const poteAdd = totalArrecadado * 0.7;
-      const poteBase = parseFloat(document.getElementById('cfg-pote-base').value || 500);
-      const poteTotal = poteBase + poteAdd;
-
-      document.getElementById('arrecadacao-ciclo').innerText = `R$ ${totalArrecadado.toFixed(2)}`;
-      document.getElementById('qtd-apostas-ciclo').innerText = `${apostas.length} apostas registradas`;
-      document.getElementById('receita-adm').innerText = `R$ ${recAdm.toFixed(2)}`;
-      document.getElementById('pote-premios').innerText = `R$ ${poteTotal.toFixed(2)}`;
-      document.getElementById('pote-distribuir-banner').innerText = `R$ ${poteTotal.toFixed(2)}`;
+      document.getElementById('total-apostas').innerText = apostas.length;
+      document.getElementById('volume-total').innerText = `R$ ${totalValor},00`;
+      document.getElementById('lucro-total').innerText = `R$ ${totalValor},00`;
     }
 
-    function filtrarApostas() {
-      const termo = document.getElementById('busca-aposta').value.toLowerCase();
-      const linhas = document.querySelectorAll('#tabela-apostas-body tr');
-      linhas.forEach(linha => {
-        const texto = linha.innerText.toLowerCase();
-        linha.style.display = texto.includes(termo) ? '' : 'none';
-      });
+    function salvarResultado() {
+      const res1 = document.getElementById('res-1').value;
+      if (!res1) {
+        alert("Informe pelo menos o resultado do 1º prêmio!");
+        return;
+      }
+      localStorage.setItem('resultado_oficial', JSON.stringify({ premio1: res1, data: new Date().toLocaleTimeString() }));
+      alert("✅ Resultado cadastrado com sucesso!");
     }
 
     function atualizarSaldoJogador() {
       const novoSaldo = document.getElementById('novo-saldo').value;
-      if (!novoSaldo) return alert("Digite o valor do novo saldo!");
+      if (!novoSaldo) {
+        alert("Digite o valor do novo saldo!");
+        return;
+      }
       localStorage.setItem('saldo_jogador', novoSaldo);
-      alert(`✅ Saldo atualizado com sucesso para R$ ${novoSaldo}!`);
-    }
-
-    function realizarSorteio() {
-      const p1 = document.getElementById('premio-1').value;
-      if (!p1) return alert("Informe ao menos o resultado do 1º Prêmio!");
-      
-      const resultado = {
-        premio1: p1,
-        premio2: document.getElementById('premio-2').value || "----",
-        premio3: document.getElementById('premio-3').value || "----",
-        data: new Date().toLocaleString()
-      };
-
-      localStorage.setItem('resultado_oficial', JSON.stringify(resultado));
-      alert("🏆 Sorteio realizado e divulgado para todos os jogadores!");
-    }
-
-    function salvarConfiguracoes() {
-      alert("✅ Configurações salvas com sucesso!");
+      alert(`✅ Saldo atualizado para R$ ${novoSaldo},00!`);
     }
 
     function deletarAposta(id) {
-      if (confirm("Deseja remover esta aposta do sistema?")) {
+      if (confirm("Tem certeza que deseja excluir esta aposta?")) {
         let apostas = JSON.parse(localStorage.getItem('apostas_bicho777') || '[]');
-        apostas = apostas.filter((a, idx) => (a.id || idx) !== id);
+        apostas = apostas.filter(a => a.id !== id);
         localStorage.setItem('apostas_bicho777', JSON.stringify(apostas));
-        carregarDadosAdmin();
+        carregarApostasAdmin();
       }
     }
   </script>
