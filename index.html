@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bicho777Bet - A Sorte é Seu Melhor Palpite!</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #03120a; color: #e2e8f0; font-family: sans-serif; }
+    .gold-gradient { background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%); }
+    .gold-text { color: #facc15; }
+    .card-dark { background-color: #081d12; border: 1px solid #143823; }
+    .bicho-card { transition: transform 0.2s; cursor: pointer; }
+    .bicho-card:hover { transform: translateY(-4px); border-color: #eab308; }
+    .selected { border: 2px solid #facc15 !important; background-color: #143823 !important; }
+  </style>
+</head>
+<body class="pb-24">
+
+  <!-- Header / Topo -->
+  <header class="bg-[#05180e] border-b border-green-900/50 p-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-crown gold-text text-2xl"></i>
+        <span class="text-xl font-black text-white italic tracking-wider">Bicho<span class="gold-text">777</span>Bet</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="bg-black/60 px-3 py-1.5 rounded-lg border border-green-800 text-right">
+          <p class="text-[10px] text-gray-400">Saldo</p>
+          <p class="text-sm font-bold text-green-400" id="user-saldo">R$ 0,00</p>
+        </div>
+        <button onclick="abrirModalDeposito()" class="gold-gradient text-black font-bold text-xl w-10 h-10 rounded-lg flex items-center justify-center shadow-lg">+</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner & Métricas -->
+  <main class="max-w-6xl mx-auto p-4">
+    <div class="grid grid-cols-2 gap-3 mb-6">
+      <div class="card-dark p-3 rounded-xl flex items-center gap-3">
+        <i class="fa-solid fa-trophy gold-text text-2xl"></i>
+        <div>
+          <p class="text-[10px] text-gray-400">PRÊMIO ACUMULADO</p>
+          <p class="text-base font-black gold-text" id="pote-acumulado">R$ 500,00</p>
+        </div>
+      </div>
+      <div class="card-dark p-3 rounded-xl flex items-center gap-3">
+        <i class="fa-solid fa-clock text-green-400 text-2xl"></i>
+        <div>
+          <p class="text-[10px] text-gray-400">SORTEIO DIÁRIO</p>
+          <p class="text-sm font-bold text-white">HOJE ÀS 19:30h</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner Telegram -->
+    <a href="https://t.me" target="_blank" class="card-dark p-4 rounded-xl mb-6 flex justify-between items-center border-blue-500/30 bg-blue-950/20">
+      <div class="flex items-center gap-3">
+        <i class="fa-brands fa-telegram text-blue-400 text-3xl"></i>
+        <div>
+          <p class="text-xs font-bold text-white">Grupo Oficial no Telegram</p>
+          <p class="text-[10px] text-gray-400">Acompanhe resultados e palpites</p>
+        </div>
+      </div>
+      <span class="text-xs bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg">Entrar</span>
+    </a>
+
+    <!-- Seleção do Tipo de Aposta -->
+    <div class="mb-4">
+      <p class="text-xs font-bold text-gray-300 mb-2">1. ESCOLHA O TIPO DA SUA APOSTA:</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="btn-tipo-grupo" onclick="selecionarTipo('grupo')" class="py-2.5 rounded-xl text-xs font-bold border border-green-700 bg-green-900/40 text-white">GRUPO (01 a 25)</button>
+        <button id="btn-tipo-dezena" onclick="selecionarTipo('dezena')" class="py-2.5 rounded-xl text-xs font-bold border border-gray-700 bg-black/40 text-gray-400">DEZENA (00 a 99)</button>
+      </div>
+    </div>
+
+    <!-- Grade de Valores Fixos -->
+    <div class="mb-6">
+      <p class="text-xs font-bold text-gray-300 mb-2">2. ESCOLHA O VALOR DO PALPITE (R$):</p>
+      <div class="grid grid-cols-4 sm:grid-cols-7 gap-2">
+        <button onclick="selecionarValor(3)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 3</button>
+        <button onclick="selecionarValor(5)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 5</button>
+        <button onclick="selecionarValor(7)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 7</button>
+        <button onclick="selecionarValor(10)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 10</button>
+        <button onclick="selecionarValor(15)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 15</button>
+        <button onclick="selecionarValor(20)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 20</button>
+        <button onclick="selecionarValor(50)" class="btn-valor py-2 rounded-lg border border-yellow-600/40 bg-black text-xs font-bold gold-text">R$ 50</button>
+      </div>
+    </div>
+
+    <!-- Tabela dos 25 Bichos -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8" id="grid-bichos">
+      <!-- Gerado via JavaScript -->
+    </div>
+
+    <!-- Botão de Apostar -->
+    <button onclick="confirmarAposta()" class="w-full gold-gradient text-black font-black text-base py-4 rounded-xl shadow-lg flex items-center justify-center gap-2">
+      <i class="fa-solid fa-check-circle"></i> CONFIRMAR APOSTA
+    </button>
+  </main>
+
+  <!-- Navegação Inferior -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#05180e] border-t border-green-900/50 p-2 flex justify-around text-center z-50">
+    <a href="#" class="text-xs gold-text font-bold"><i class="fa-solid fa-house text-base block"></i> Início</a>
+    <a href="admin.html" class="text-xs text-gray-400"><i class="fa-solid fa-user-shield text-base block"></i> Admin</a>
+  </nav>
+
+  <script>
+    const bichos = [
+      { num: '01', nome: 'AVESTRUZ', dezenas: '01, 02, 03, 04' },
+      { num: '02', nome: 'ÁGUIA', dezenas: '05, 06, 07, 08' },
+      { num: '03', nome: 'BURRO', dezenas: '09, 10, 11, 12' },
+      { num: '04', nome: 'BORBOLETA', dezenas: '13, 14, 15, 16' },
+      { num: '05', nome: 'CACHORRO', dezenas: '17, 18, 19, 20' },
+      { num: '06', nome: 'CABRA', dezenas: '21, 22, 23, 24' },
+      { num: '07', nome: 'CARNEIRO', dezenas: '25, 26, 27, 28' },
+      { num: '08', nome: 'CAMELO', dezenas: '29, 30, 31, 32' },
+      { num: '09', nome: 'COBRA', dezenas: '33, 34, 35, 36' },
+      { num: '10', nome: 'COELHO', dezenas: '37, 38, 39, 40' },
+      { num: '11', nome: 'CAVALO', dezenas: '41, 42, 43, 44' },
+      { num: '12', nome: 'ELEFANTE', dezenas: '45, 46, 47, 48' },
+      { num: '13', nome: 'GALO', dezenas: '49, 50, 51, 52' },
+      { num: '14', nome: 'GATO', dezenas: '53, 54, 55, 56' },
+      { num: '15', nome: 'JACARÉ', dezenas: '57, 58, 59, 60' },
+      { num: '16', nome: 'LEÃO', dezenas: '61, 62, 63, 64' },
+      { num: '17', nome: 'MACACO', dezenas: '65, 66, 67, 68' },
+      { num: '18', nome: 'PORCO', dezenas: '69, 70, 71, 72' },
+      { num: '19', nome: 'PAVÃO', dezenas: '73, 74, 75, 76' },
+      { num: '20', nome: 'PERU', dezenas: '77, 78, 79, 80' },
+      { num: '21', nome: 'TOURO', dezenas: '81, 82, 83, 84' },
+      { num: '22', nome: 'TIGRE', dezenas: '85, 86, 87, 88' },
+      { num: '23', nome: 'URSO', dezenas: '89, 90, 91, 92' },
+      { num: '24', nome: 'VEADO', dezenas: '93, 94, 95, 96' },
+      { num: '25', nome: 'VACA', dezenas: '97, 98, 99, 00' }
+    ];
+
+    let escolhaAposta = null;
+    let valorSelecionado = 3;
+
+    function renderBichos() {
+      const grid = document.getElementById('grid-bichos');
+      grid.innerHTML = bichos.map(b => `
+        <div onclick="selecionarBicho('${b.num}')" id="bicho-${b.num}" class="bicho-card card-dark p-3 rounded-xl text-center">
+          <span class="text-xs font-bold gold-text block">${b.num}</span>
+          <p class="text-xs font-black text-white my-1">${b.nome}</p>
+          <span class="text-[9px] text-gray-400 block">${b.dezenas}</span>
+        </div>
+      `).join('');
+    }
+
+    function selecionarBicho(num) {
+      document.querySelectorAll('.bicho-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById(`bicho-${num}`).classList.add('selected');
+      escolhaAposta = num;
+    }
+
+    function selecionarValor(val) {
+      valorSelecionado = val;
+      alert(`Valor de R$ ${val},00 selecionado.`);
+    }
+
+    function confirmarAposta() {
+      if(!escolhaAposta) {
+        alert("Por favor, selecione um Bicho ou Dezena antes de confirmar!");
+        return;
+      }
+      alert(`Aposta confirmada no Bicho ${escolhaAposta} no valor de R$ ${valorSelecionado},00!`);
+    }
+
+    renderBichos();
+  </script>
+</body>
+</html>
