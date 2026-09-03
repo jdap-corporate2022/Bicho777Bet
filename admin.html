@@ -3,306 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Administrativo - Bicho777Bet</title>
+  <title>Bicho777Bet - Painel Administrativo</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background-color: #03120a; color: #e2e8f0; font-family: sans-serif; }
-    .card-dark { background-color: #081d12; border: 1px solid #143823; }
-    .gold-text { color: #facc15; }
-    .gold-bg { background-color: #eab308; }
-    .gold-bg:hover { background-color: #ca8a04; }
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap');
+    body { background-color: #010803; color: #ffffff; font-family: 'Montserrat', sans-serif; }
+    .gold-gradient { background: linear-gradient(180deg, #fff3a1 0%, #facc15 50%, #855800 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gold-btn { background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%); color: #000; font-weight: 900; }
   </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-3 max-w-2xl mx-auto">
 
-  <!-- Header -->
-  <header class="flex flex-col md:flex-row justify-between items-center mb-8 pb-4 border-b border-green-900/50 gap-4">
-    <div class="flex items-center gap-3">
-      <i class="fa-solid fa-shield-halved text-2xl gold-text"></i>
-      <div>
-        <h1 class="text-xl font-bold text-white flex items-center gap-2">
-          Painel Administrativo Bicho777Bet
-          <span class="text-xs gold-bg text-black px-2 py-0.5 rounded font-bold">GESTÃO OFICIAL</span>
-        </h1>
-        <p class="text-xs text-gray-400">Controle financeiro 70/30, apuração do sorteio e gestão de apostadores.</p>
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <button onclick="carregarDados()" class="px-4 py-2 bg-green-900/40 border border-green-700/50 hover:bg-green-800/40 text-xs text-green-300 rounded font-semibold flex items-center gap-2">
-        <i class="fa-solid fa-rotate"></i> Atualizar Dados
-      </button>
-    </div>
-  </header>
+  <!-- TELA DE LOGIN DO ADMIN -->
+  <div id="tela-login" class="flex flex-col items-center justify-center min-h-[85vh]">
+    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-6 w-full max-w-sm shadow-2xl text-center">
+      <i class="fa-solid fa-user-shield text-yellow-400 text-4xl mb-3"></i>
+      <h2 class="text-xl font-black uppercase gold-gradient mb-1">Acesso Restrito ADM</h2>
+      <p class="text-xs text-gray-400 mb-5">Painel de Controle Bicho777Bet</p>
 
-  <!-- Dashboard Financeiro (Métricas) -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-    <div class="card-dark p-4 rounded-xl">
-      <div class="flex justify-between items-center text-gray-400 text-xs mb-1">
-        <span>ARRECADAÇÃO DO CICLO</span>
-        <i class="fa-solid fa-dollar-sign gold-text"></i>
-      </div>
-      <div class="text-2xl font-bold text-white" id="stat-arrecadacao">R$ 0,00</div>
-      <p class="text-[10px] text-gray-500 mt-1">Total de apostas no ciclo</p>
-    </div>
-
-    <div class="card-dark p-4 rounded-xl">
-      <div class="flex justify-between items-center text-gray-400 text-xs mb-1">
-        <span>RECEITA ADM (30%)</span>
-        <i class="fa-solid fa-chart-line text-green-400"></i>
-      </div>
-      <div class="text-2xl font-bold text-green-400" id="stat-adm">R$ 0,00</div>
-      <p class="text-[10px] text-gray-500 mt-1">Retenção administrativa</p>
-    </div>
-
-    <div class="card-dark p-4 rounded-xl">
-      <div class="flex justify-between items-center text-gray-400 text-xs mb-1">
-        <span>POTE DE PRÊMIOS (70%)</span>
-        <i class="fa-solid fa-trophy gold-text"></i>
-      </div>
-      <div class="text-2xl font-bold gold-text" id="stat-pote">R$ 500,00</div>
-      <p class="text-[10px] text-gray-500 mt-1">Base inicial + 70% das apostas</p>
-    </div>
-
-    <div class="card-dark p-4 rounded-xl">
-      <div class="flex justify-between items-center text-gray-400 text-xs mb-1">
-        <span>TOTAL DE JOGADORES</span>
-        <i class="fa-solid fa-users text-blue-400"></i>
-      </div>
-      <div class="text-2xl font-bold text-white" id="stat-jogadores">0</div>
-      <p class="text-[10px] text-gray-500 mt-1">Cadastrados no sistema</p>
-    </div>
-  </div>
-
-  <!-- Controle do Sorteio -->
-  <div class="card-dark p-6 rounded-xl mb-8 border-yellow-600/30">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-      <div>
-        <span class="gold-bg text-black text-xs font-bold px-2 py-0.5 rounded">CICLO ATUAL</span>
-        <h2 class="text-lg font-bold text-white mt-1">Controle e Apuração do Sorteio Diário (19:30h)</h2>
-      </div>
-      <div class="text-right">
-        <span class="text-xs text-gray-400">POTE A DISTRIBUIR:</span>
-        <div class="text-xl font-bold gold-text" id="sorteio-pote-display">R$ 500,00</div>
-      </div>
-    </div>
-
-    <div class="flex flex-col sm:flex-row items-center gap-4 bg-black/40 p-4 rounded-lg border border-green-900/40">
-      <div class="flex-1 w-full">
-        <label class="text-xs text-gray-400 mb-1 block">MÉTODO DE APURAÇÃO</label>
-        <div class="flex gap-2">
-          <button id="btn-mode-auto" onclick="setModo('auto')" class="flex-1 py-2 px-3 text-xs bg-green-900/60 border border-green-500 text-white rounded font-medium">
-            <i class="fa-solid fa-dice"></i> Aleatório (RNG)
-          </button>
-          <button id="btn-mode-manual" onclick="setModo('manual')" class="flex-1 py-2 px-3 text-xs bg-gray-800 border border-gray-700 text-gray-400 rounded font-medium">
-            <i class="fa-solid fa-pen"></i> Manual (00-99)
-          </button>
+      <div class="space-y-3 text-left">
+        <div>
+          <label class="block text-[11px] font-bold text-gray-300 mb-1">Usuário:</label>
+          <input type="text" id="admin-user" placeholder="Digite o usuário" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
         </div>
-      </div>
 
-      <div class="w-full sm:w-auto text-center">
-        <label class="text-xs text-gray-400 mb-1 block">DEZENA SORTEADA</label>
-        <input type="text" id="input-dezena" maxlength="2" placeholder="--" disabled class="w-24 text-center text-2xl font-bold bg-black text-yellow-400 border border-yellow-500/50 rounded py-1 focus:outline-none">
-      </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-300 mb-1">Senha:</label>
+          <input type="password" id="admin-pass" placeholder="Digite a senha" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
+        </div>
 
-      <button onclick="executarSorteio()" class="w-full sm:w-auto gold-bg text-black font-bold px-6 py-4 rounded-lg hover:opacity-90 flex items-center justify-center gap-2">
-        <i class="fa-solid fa-play"></i> REALIZAR SORTEIO AGORA
+        <button onclick="autenticarAdmin()" class="w-full gold-btn py-3 rounded-xl text-sm font-black uppercase tracking-wider mt-2 shadow-lg">
+          ENTRAR NO PAINEL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL ADMINISTRATIVO (Oculto até realizar login) -->
+  <div id="painel-admin" class="hidden space-y-4">
+    
+    <!-- Topo Admin -->
+    <header class="bg-[#03170a] border border-yellow-500/50 p-4 rounded-2xl flex justify-between items-center shadow-lg">
+      <div>
+        <h1 class="text-lg font-black gold-gradient uppercase leading-tight">PAINEL DE CONTROLE</h1>
+        <p class="text-[10px] text-green-400 font-bold uppercase">Administrador Autenticado</p>
+      </div>
+      <button onclick="logoutAdmin()" class="bg-red-900/60 border border-red-500 text-red-200 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-red-800">
+        <i class="fa-solid fa-right-from-bracket"></i> Sair
       </button>
+    </header>
+
+    <!-- Resumo de Estatísticas -->
+    <div class="grid grid-cols-2 gap-3">
+      <div class="bg-[#041a0d] border border-green-700/60 p-3 rounded-xl">
+        <span class="text-[10px] text-gray-400 font-bold block uppercase">Total de Apostas</span>
+        <span id="total-apostas" class="text-xl font-black text-yellow-400">0</span>
+      </div>
+      <div class="bg-[#041a0d] border border-green-700/60 p-3 rounded-xl">
+        <span class="text-[10px] text-gray-400 font-bold block uppercase">Volume Arrecadado</span>
+        <span id="volume-total" class="text-xl font-black text-green-400">R$ 0,00</span>
+      </div>
     </div>
+
+    <!-- Tabela de Apostas Registradas pelos Jogadores -->
+    <div class="bg-[#03170a] border border-green-800 rounded-2xl p-4 shadow-xl">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-xs font-black uppercase text-yellow-400"><i class="fa-solid fa-list-check"></i> Apostas dos Jogadores</h3>
+        <button onclick="carregarApostasAdmin()" class="text-[10px] bg-green-800/60 text-green-300 font-bold px-2.5 py-1 rounded-lg border border-green-600">
+          <i class="fa-solid fa-rotate-right"></i> Atualizar
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-green-900 text-[10px] text-gray-400 uppercase">
+              <th class="p-2">Data/Hora</th>
+              <th class="p-2">Tipo</th>
+              <th class="p-2">Palpite</th>
+              <th class="p-2">Valor</th>
+              <th class="p-2 text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-apostas-body" class="text-xs text-gray-200">
+            <!-- Linhas preenchidas via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Tabela: Apostas Registradas -->
-  <div class="card-dark rounded-xl p-6 mb-8">
-    <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-receipt gold-text"></i> Apostas Registradas no Ciclo
-    </h3>
-    <div class="overflow-x-auto">
-      <table class="w-full text-left text-xs text-gray-300">
-        <thead class="bg-black/50 text-gray-400 uppercase">
-          <tr>
-            <th class="p-3">Apostador</th>
-            <th class="p-3">CPF / Telefone</th>
-            <th class="p-3">Tipo</th>
-            <th class="p-3">Escolha</th>
-            <th class="p-3">Valor</th>
-            <th class="p-3">70% Pote</th>
-            <th class="p-3">30% ADM</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-apostas" class="divide-y divide-green-900/30">
-          <tr>
-            <td colspan="7" class="p-4 text-center text-gray-500">Nenhuma aposta registrada neste ciclo.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <script>
+    // Configuração de Credenciais Administrativas
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "123456";
 
-  <!-- Tabela: Jogadores Cadastrados -->
-  <div class="card-dark rounded-xl p-6">
-    <h3 class="text-md font-bold text-white mb-4 flex items-center gap-2">
-      <i class="fa-solid fa-users text-blue-400"></i> Jogadores Cadastrados na Plataforma
-    </h3>
-    <div class="overflow-x-auto">
-      <table class="w-full text-left text-xs text-gray-300">
-        <thead class="bg-black/50 text-gray-400 uppercase">
-          <tr>
-            <th class="p-3">Nome</th>
-            <th class="p-3">CPF</th>
-            <th class="p-3">Telefone</th>
-            <th class="p-3">E-mail</th>
-            <th class="p-3">Data Cadastro</th>
-          </tr>
-        </thead>
-        <tbody id="tabela-jogadores" class="divide-y divide-green-900/30">
-          <tr>
-            <td colspan="5" class="p-4 text-center text-gray-500">Nenhum jogador cadastrado.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Scripts Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, addDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // Subtitua com as credenciais do seu projeto Firebase
-    const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_PROJETO.firebaseapp.com",
-      projectId: "SEU_PROJETO",
-      storageBucket: "SEU_PROJETO.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
+    // Verificar se já está autenticado ao carregar a página
+    window.onload = function() {
+      if (sessionStorage.getItem("admin_autenticado") === "true") {
+        exibirPainelAdmin();
+      }
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    function autenticarAdmin() {
+      const user = document.getElementById('admin-user').value.trim();
+      const pass = document.getElementById('admin-pass').value.trim();
 
-    let modoSorteio = 'auto';
-
-    window.setModo = function(modo) {
-      modoSorteio = modo;
-      const btnAuto = document.getElementById('btn-mode-auto');
-      const btnManual = document.getElementById('btn-mode-manual');
-      const input = document.getElementById('input-dezena');
-
-      if(modo === 'auto') {
-        btnAuto.className = "flex-1 py-2 px-3 text-xs bg-green-900/60 border border-green-500 text-white rounded font-medium";
-        btnManual.className = "flex-1 py-2 px-3 text-xs bg-gray-800 border border-gray-700 text-gray-400 rounded font-medium";
-        input.disabled = true;
-        input.value = "--";
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        sessionStorage.setItem("admin_autenticado", "true");
+        exibirPainelAdmin();
       } else {
-        btnManual.className = "flex-1 py-2 px-3 text-xs bg-green-900/60 border border-green-500 text-white rounded font-medium";
-        btnAuto.className = "flex-1 py-2 px-3 text-xs bg-gray-800 border border-gray-700 text-gray-400 rounded font-medium";
-        input.disabled = false;
-        input.value = "";
-        input.focus();
+        alert("❌ Usuário ou Senha incorretos!");
       }
     }
 
-    window.carregarDados = async function() {
-      try {
-        // Carregar Apostas
-        const apostasSnap = await getDocs(collection(db, "apostas"));
-        const tabelaApostas = document.getElementById('tabela-apostas');
-        tabelaApostas.innerHTML = "";
-
-        let totalArrecadado = 0;
-
-        if (apostasSnap.empty) {
-          tabelaApostas.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">Nenhuma aposta encontrada no banco de dados.</td></tr>`;
-        } else {
-          apostasSnap.forEach((doc) => {
-            const a = doc.data();
-            const valor = Number(a.valorPago || 0);
-            const pote70 = valor * 0.7;
-            const adm30 = valor * 0.3;
-            totalArrecadado += valor;
-
-            tabelaApostas.innerHTML += `
-              <tr class="hover:bg-green-950/20">
-                <td class="p-3 font-semibold text-white">${a.nomeJogador || 'N/A'}</td>
-                <td class="p-3 text-gray-400">${a.cpf || '-'} / ${a.telefone || '-'}</td>
-                <td class="p-3"><span class="px-2 py-0.5 rounded bg-green-900/40 text-green-300 font-bold">${a.tipoAposta || 'Dezena'}</span></td>
-                <td class="p-3 font-bold gold-text">${a.escolha}</td>
-                <td class="p-3 text-white">R$ ${valor.toFixed(2)}</td>
-                <td class="p-3 text-green-400">R$ ${pote70.toFixed(2)}</td>
-                <td class="p-3 text-gray-400">R$ ${adm30.toFixed(2)}</td>
-              </tr>
-            `;
-          });
-        }
-
-        // Atualizar Financeiro
-        const admTotal = totalArrecadado * 0.30;
-        const poteTotal = 500 + (totalArrecadado * 0.70); // Base de R$ 500 + 70%
-
-        document.getElementById('stat-arrecadacao').innerText = `R$ ${totalArrecadado.toFixed(2)}`;
-        document.getElementById('stat-adm').innerText = `R$ ${admTotal.toFixed(2)}`;
-        document.getElementById('stat-pote').innerText = `R$ ${poteTotal.toFixed(2)}`;
-        document.getElementById('sorteio-pote-display').innerText = `R$ ${poteTotal.toFixed(2)}`;
-
-        // Carregar Jogadores
-        const usuariosSnap = await getDocs(collection(db, "usuarios"));
-        const tabelaJogadores = document.getElementById('tabela-jogadores');
-        tabelaJogadores.innerHTML = "";
-
-        document.getElementById('stat-jogadores').innerText = usuariosSnap.size;
-
-        if (usuariosSnap.empty) {
-          tabelaJogadores.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Nenhum jogador cadastrado.</td></tr>`;
-        } else {
-          usuariosSnap.forEach((doc) => {
-            const u = doc.data();
-            tabelaJogadores.innerHTML += `
-              <tr class="hover:bg-green-950/20">
-                <td class="p-3 font-semibold text-white">${u.nome || 'N/A'}</td>
-                <td class="p-3 text-gray-400">${u.cpf || '-'}</td>
-                <td class="p-3 text-gray-400">${u.telefone || '-'}</td>
-                <td class="p-3 text-gray-300">${u.email || '-'}</td>
-                <td class="p-3 text-gray-500">${u.criadoEm ? new Date(u.criadoEm.seconds * 1000).toLocaleDateString('pt-BR') : '-'}</td>
-              </tr>
-            `;
-          });
-        }
-
-      } catch (err) {
-        console.error("Erro ao carregar dados:", err);
-      }
+    function logoutAdmin() {
+      sessionStorage.removeItem("admin_autenticado");
+      document.getElementById('painel-admin').classList.add('hidden');
+      document.getElementById('tela-login').classList.remove('hidden');
+      document.getElementById('admin-user').value = '';
+      document.getElementById('admin-pass').value = '';
     }
 
-    window.executarSorteio = async function() {
-      let dezena = "";
-      if (modoSorteio === 'auto') {
-        dezena = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-        document.getElementById('input-dezena').value = dezena;
+    function exibirPainelAdmin() {
+      document.getElementById('tela-login').classList.add('hidden');
+      document.getElementById('painel-admin').classList.remove('hidden');
+      carregarApostasAdmin();
+    }
+
+    function carregarApostasAdmin() {
+      const apostas = JSON.parse(localStorage.getItem('apostas_bicho777') || '[]');
+      const tbody = document.getElementById('tabela-apostas-body');
+      tbody.innerHTML = '';
+
+      let totalValor = 0;
+
+      if (apostas.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500 text-xs font-bold">Nenhuma aposta registrada ainda.</td></tr>`;
       } else {
-        dezena = document.getElementById('input-dezena').value;
-        if (!dezena || dezena.length < 2) {
-          alert("Por favor, digite uma dezena válida entre 00 e 99.");
-          return;
-        }
+        apostas.reverse().forEach((aposta, index) => {
+          totalValor += Number(aposta.valor);
+
+          const tr = document.createElement('tr');
+          tr.className = "border-b border-green-950 hover:bg-[#052b12]/50";
+          tr.innerHTML = `
+            <td class="p-2 text-[10px] text-gray-400">${aposta.data}</td>
+            <td class="p-2 font-bold text-yellow-400">${aposta.tipo}</td>
+            <td class="p-2 font-black text-white">${aposta.palpite}</td>
+            <td class="p-2 font-bold text-green-400">R$ ${aposta.valor},00</td>
+            <td class="p-2 text-center">
+              <button onclick="deletarAposta(${aposta.id})" class="text-red-400 hover:text-red-200 text-xs p-1">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
       }
 
-      if (confirm(`Confirmar realização do sorteio para a dezena [ ${dezena} ]?`)) {
-        try {
-          await addDoc(collection(db, "resultados"), {
-            dezenaSorteada: dezena,
-            dataHora: new Date(),
-            poteDistribuido: document.getElementById('stat-pote').innerText
-          });
-          alert(`Sorteio realizado com sucesso! Dezena premiada: ${dezena}`);
-        } catch (e) {
-          alert("Erro ao salvar resultado do sorteio.");
-        }
-      }
+      document.getElementById('total-apostas').innerText = apostas.length;
+      document.getElementById('volume-total').innerText = `R$ ${totalValor},00`;
     }
 
-    // Executa ao carregar a página
-    carregarDados();
+    function deletarAposta(id) {
+      if (confirm("Tem certeza que deseja excluir esta aposta?")) {
+        let apostas = JSON.parse(localStorage.getItem('apostas_bicho777') || '[]');
+        apostas = apostas.filter(a => a.id !== id);
+        localStorage.setItem('apostas_bicho777', JSON.stringify(apostas));
+        carregarApostasAdmin();
+      }
+    }
   </script>
 </body>
 </html>
