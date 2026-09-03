@@ -48,10 +48,24 @@
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(4px);
     }
+
+    /* Estilo dos itens selecionáveis */
+    .grid-item {
+      background: #052b12;
+      border: 1px solid #15803d;
+      transition: all 0.2s;
+    }
+    .grid-item.selected {
+      background: #facc15 !important;
+      color: #000000 !important;
+      border-color: #facc15 !important;
+      font-weight: 900;
+    }
   </style>
 </head>
 <body class="pb-24">
 
+  <!-- Header Superior -->
   <header class="p-3 bg-[#021106] border-b border-green-900/60 sticky top-0 z-40">
     <div class="max-w-md mx-auto flex justify-between items-center">
       <div class="flex items-center gap-3">
@@ -76,6 +90,7 @@
 
   <main class="max-w-md mx-auto p-3 space-y-4">
 
+    <!-- Indicadores do Sorteio -->
     <div class="grid grid-cols-3 gap-2">
       <div class="bg-[#04180c] border border-green-900/80 rounded-xl p-2 text-center flex flex-col justify-center items-center">
         <i class="fa-solid fa-trophy text-yellow-500 text-base mb-0.5"></i>
@@ -96,10 +111,12 @@
       </div>
     </div>
 
+    <!-- Título Centralizado -->
     <div class="text-center my-2">
       <span class="text-xs font-black text-green-400 tracking-wider uppercase">━━━ ESCOLHA SEU BICHO ━━━</span>
     </div>
 
+    <!-- Imagem Central da Tabela de Bichos -->
     <div class="flex justify-center items-center">
       <div class="bg-[#041a0d] p-1.5 rounded-2xl border-2 border-yellow-500/60 shadow-2xl max-w-full">
         <img 
@@ -111,6 +128,7 @@
       </div>
     </div>
 
+    <!-- Botão Principal Faça sua Aposta -->
     <div class="pt-2">
       <button onclick="abrirModalTipoAposta()" class="w-full gold-btn py-4 rounded-2xl text-base uppercase font-black tracking-wider flex items-center justify-center gap-2 border-2 border-yellow-300">
         <i class="fa-solid fa-dice text-xl"></i> FAÇA SUA APOSTA
@@ -119,6 +137,7 @@
 
   </main>
 
+  <!-- POP-UP MODAL 1: Escolha do Tipo de Aposta -->
   <div id="modal-tipo-aposta" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
     <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-5 w-full max-w-sm text-center relative shadow-2xl">
       <button onclick="fecharModal('modal-tipo-aposta')" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg font-bold">✕</button>
@@ -131,7 +150,7 @@
         <button onclick="selecionarModalidade('GRUPO')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
           <div>
             <span class="font-black text-yellow-400 block text-sm">GRUPO</span>
-            <span class="text-[10px] text-gray-300">Escolha de 01 a 25 (engloba as 4 dezenas)</span>
+            <span class="text-[10px] text-gray-300">Escolha um dos 25 Bichos (1 ao 25)</span>
           </div>
           <i class="fa-solid fa-chevron-right text-green-400"></i>
         </button>
@@ -139,7 +158,7 @@
         <button onclick="selecionarModalidade('DEZENA')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
           <div>
             <span class="font-black text-yellow-400 block text-sm">DEZENA</span>
-            <span class="text-[10px] text-gray-300">Escolha o número exato de 00 a 99</span>
+            <span class="text-[10px] text-gray-300">Escolha uma Dezena exata (00 a 99)</span>
           </div>
           <i class="fa-solid fa-chevron-right text-green-400"></i>
         </button>
@@ -147,36 +166,49 @@
     </div>
   </div>
 
-  <div id="modal-selecao-numero" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-5 w-full max-w-sm relative shadow-2xl">
+  <!-- POP-UP MODAL 2: Seleção Visual do Número e Valor -->
+  <div id="modal-selecao-numero" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-4 w-full max-w-sm relative shadow-2xl max-h-[90vh] flex flex-col">
+      
       <button onclick="fecharModal('modal-selecao-numero')" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg font-bold">✕</button>
       
-      <div class="text-center mb-4">
+      <div class="text-center mb-3">
         <span class="bg-green-900/80 text-yellow-400 text-[10px] font-extrabold px-3 py-1 rounded-full border border-yellow-500/30 uppercase" id="modal-titulo-modalidade">GRUPO</span>
-        <h3 class="text-base font-black text-white mt-2">DIGITE OU SELECIONE SEU PALPITE</h3>
+        <h3 class="text-xs font-black text-white mt-1">SELECIONE O SEU PALPITE</h3>
       </div>
 
-      <div class="mb-4">
-        <label class="block text-[11px] text-gray-300 font-bold mb-1" id="label-numero">Número do Grupo (01 a 25):</label>
-        <input type="number" id="input-numero" min="0" max="99" placeholder="Ex: 05" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-center text-xl font-black text-yellow-400 focus:outline-none focus:border-yellow-400">
-      </div>
-
-      <div class="mb-5">
-        <label class="block text-[11px] text-gray-300 font-bold mb-1">Valor da Aposta (R$):</label>
-        <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="setValorAposta(3)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 3</button>
-          <button onclick="setValorAposta(5)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 5</button>
-          <button onclick="setValorAposta(10)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 10</button>
-          <button onclick="setValorAposta(20)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 20</button>
+      <!-- Container de Grade de Seleção (com rolagem suave) -->
+      <div class="overflow-y-auto max-h-[45vh] pr-1 mb-3 scrollbar-thin">
+        <div id="grid-opcoes" class="grid grid-cols-2 gap-1.5">
+          <!-- Gerado dinamicamente via JS -->
         </div>
       </div>
 
-      <button onclick="salvarAposta()" class="w-full gold-btn py-3 rounded-xl text-sm uppercase font-black tracking-wider">
+      <!-- Resumo do Palpite Selecionado -->
+      <div class="bg-[#010b04] border border-green-700/60 rounded-xl p-2 text-center mb-3">
+        <span class="text-[9px] text-gray-400 block font-bold uppercase">Palpite Selecionado:</span>
+        <span id="palpite-display" class="text-sm font-black text-yellow-400">Nenhum</span>
+      </div>
+
+      <!-- Seleção de Valor -->
+      <div class="mb-3">
+        <label class="block text-[10px] text-gray-300 font-bold mb-1">Valor da Aposta (R$):</label>
+        <div class="grid grid-cols-4 gap-1.5">
+          <button onclick="setValorAposta(3, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 3</button>
+          <button onclick="setValorAposta(5, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 5</button>
+          <button onclick="setValorAposta(10, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 10</button>
+          <button onclick="setValorAposta(20, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 20</button>
+        </div>
+      </div>
+
+      <!-- Botão Confirmar -->
+      <button onclick="salvarAposta()" class="w-full gold-btn py-3 rounded-xl text-xs uppercase font-black tracking-wider">
         CONFIRMAR E REGISTRAR APOSTA
       </button>
     </div>
   </div>
 
+  <!-- Navegação Inferior -->
   <nav class="fixed bottom-0 left-0 right-0 nav-bottom p-2 z-40">
     <div class="max-w-md mx-auto flex justify-around items-center text-center">
       <a href="#" class="text-green-400 text-[9px] font-extrabold flex flex-col items-center">
@@ -195,7 +227,17 @@
   </nav>
 
   <script>
+    // Mapeamento dos 25 Bichos
+    const bichos = [
+      "Avestruz", "Águia", "Burro", "Borboleta", "Cachorro",
+      "Cabra", "Carneiro", "Camelo", "Cobra", "Coelho",
+      "Cavalo", "Elefante", "Galo", "Gato", "Jacaré",
+      "Leão", "Macaco", "Porco", "Pavão", "Peru",
+      "Touro", "Tigre", "Urso", "Veado", "Vaca"
+    ];
+
     let tipoSelecionado = '';
+    let palpiteSelecionado = '';
     let valorSelecionado = 0;
 
     function abrirModalTipoAposta() {
@@ -208,43 +250,65 @@
 
     function selecionarModalidade(tipo) {
       tipoSelecionado = tipo;
+      palpiteSelecionado = '';
       fecharModal('modal-tipo-aposta');
       
       const tituloModal = document.getElementById('modal-titulo-modalidade');
-      const labelNum = document.getElementById('label-numero');
-      const inputNum = document.getElementById('input-numero');
+      const gridContainer = document.getElementById('grid-opcoes');
+      document.getElementById('palpite-display').innerText = 'Nenhum';
+      
+      gridContainer.innerHTML = '';
 
       if (tipo === 'GRUPO') {
         tituloModal.innerText = 'APOSTA EM GRUPO (01 a 25)';
-        labelNum.innerText = 'Número do Grupo (01 ao 25):';
-        inputNum.placeholder = 'Ex: 05 (Cachorro)';
-        inputNum.min = 1;
-        inputNum.max = 25;
+        gridContainer.className = "grid grid-cols-2 gap-1.5";
+
+        bichos.forEach((bicho, idx) => {
+          const numGrupo = String(idx + 1).padStart(2, '0');
+          const btn = document.createElement('button');
+          btn.className = "grid-item text-left p-2 rounded-lg flex items-center justify-between text-xs font-bold text-gray-200 hover:border-yellow-400";
+          btn.innerHTML = `<span><strong class="text-yellow-400">${numGrupo}</strong> - ${bicho}</span>`;
+          btn.onclick = () => selecionarItem(numGrupo + ' - ' + bicho, btn);
+          gridContainer.appendChild(btn);
+        });
+
       } else {
         tituloModal.innerText = 'APOSTA EM DEZENA (00 a 99)';
-        labelNum.innerText = 'Número da Dezena (00 a 99):';
-        inputNum.placeholder = 'Ex: 17';
-        inputNum.min = 0;
-        inputNum.max = 99;
+        gridContainer.className = "grid grid-cols-5 gap-1.5";
+
+        for (let i = 0; i <= 99; i++) {
+          const numDezena = String(i).padStart(2, '0');
+          const btn = document.createElement('button');
+          btn.className = "grid-item p-2 rounded-lg text-center text-xs font-bold text-yellow-400 hover:border-yellow-400";
+          btn.innerText = numDezena;
+          btn.onclick = () => selecionarItem(numDezena, btn);
+          gridContainer.appendChild(btn);
+        }
       }
 
       document.getElementById('modal-selecao-numero').classList.remove('hidden');
     }
 
-    function setValorAposta(val) {
+    function selecionarItem(valor, elemento) {
+      palpiteSelecionado = valor;
+      document.getElementById('palpite-display').innerText = valor;
+
+      document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('selected'));
+      elemento.classList.add('selected');
+    }
+
+    function setValorAposta(val, elemento) {
       valorSelecionado = val;
       document.querySelectorAll('.btn-valor').forEach(b => {
         b.classList.remove('border-yellow-400', 'bg-yellow-500', 'text-black');
         b.classList.add('bg-[#052b12]', 'text-white');
       });
-      event.target.classList.add('border-yellow-400', 'bg-yellow-500', 'text-black');
+      elemento.classList.add('border-yellow-400', 'bg-yellow-500', 'text-black');
     }
 
     function salvarAposta() {
-      const numInput = document.getElementById('input-numero').value;
-
-      if (!numInput) {
-        alert('Por favor, informe o número da sua aposta!');
+      if (!palpiteSelecionado) {
+        alert('Por favor, selecione seu palpite na lista!');
         return;
       }
 
@@ -253,17 +317,15 @@
         return;
       }
 
-      // Estrutura do objeto da aposta
       const novaAposta = {
         id: Date.now(),
         data: new Date().toLocaleString('pt-BR'),
         tipo: tipoSelecionado,
-        palpite: numInput.padStart(2, '0'),
+        palpite: palpiteSelecionado,
         valor: valorSelecionado,
         status: 'Pendente'
       };
 
-      // Gravação no Banco de Dados local (localStorage)
       let apostasSalvas = JSON.parse(localStorage.getItem('apostas_bicho777') || '[]');
       apostasSalvas.push(novaAposta);
       localStorage.setItem('apostas_bicho777', JSON.stringify(apostasSalvas));
@@ -271,8 +333,7 @@
       fecharModal('modal-selecao-numero');
       alert(`✅ Aposta registrada com sucesso!\n\nModalidade: ${novaAposta.tipo}\nPalpite: ${novaAposta.palpite}\nValor: R$ ${novaAposta.valor},00`);
 
-      // Limpar campos
-      document.getElementById('input-numero').value = '';
+      palpiteSelecionado = '';
       valorSelecionado = 0;
     }
   </script>
