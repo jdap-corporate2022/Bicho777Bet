@@ -1,386 +1,545 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bicho777Bet - A Sorte é Seu Melhor Palpite!</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- SDKs do Firebase Compat -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#001a0d">
+    <title>Bicho777Bet</title>
     
-    * { -webkit-tap-highlight-color: transparent; }
-    body { 
-      background-color: #010803; 
-      color: #ffffff; 
-      font-family: 'Montserrat', sans-serif;
-    }
-    
-    .gold-gradient-text {
-      background: linear-gradient(180deg, #fff3a1 0%, #facc15 50%, #855800 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .timer-box {
-      background: radial-gradient(circle, #2d0a00 0%, #110300 100%);
-      border: 1.5px solid #ea580c;
-      box-shadow: 0 0 12px rgba(234, 88, 12, 0.4);
-    }
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 30%, #06351e 0%, #001b0d 42%, #000d06 100%);
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
 
-    .nav-bottom {
-      background: linear-gradient(180deg, #031409 0%, #010602 100%);
-      border-top: 1px solid #14532d;
-    }
+        .app {
+            width: 100%;
+            min-height: 100vh;
+            padding-bottom: 95px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,35,17,0.3));
+        }
 
-    .gold-btn {
-      background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
-      color: #000000;
-      font-weight: 900;
-      box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
-      transition: all 0.2s;
-    }
-    .gold-btn:active {
-      transform: scale(0.97);
-    }
+        /* HEADER */
+        .header {
+            width: 100%;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(0, 255, 125, 0.16);
+            background: linear-gradient(180deg, #001a0c 0%, #001509 100%);
+            position: relative;
+            z-index: 10;
+        }
 
-    .modal-overlay {
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(4px);
-    }
+        .menu-button {
+            width: 40px;
+            height: 40px;
+            border: 0;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+        }
 
-    /* Estilo dos itens selecionáveis */
-    .grid-item {
-      background: #052b12;
-      border: 1px solid #15803d;
-      transition: all 0.2s;
-    }
-    .grid-item.selected {
-      background: #facc15 !important;
-      color: #000000 !important;
-      border-color: #facc15 !important;
-      font-weight: 900;
-    }
-  </style>
+        .menu-button span {
+            width: 26px;
+            height: 3px;
+            border-radius: 4px;
+            background: #ffc400;
+            box-shadow: 0 0 6px rgba(255, 196, 0, 0.3);
+        }
 
-  <script>
-    // Inicialização do Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAYvktDU3VVX1J7UHXmA1yY9b6o_imllr0",
-      authDomain: "bicho777bet.firebaseapp.com",
-      databaseURL: "https://bicho777bet-default-rtdb.firebaseio.com",
-      projectId: "bicho777bet",
-      storageBucket: "bicho777bet.firebasestorage.app",
-      messagingSenderId: "1003247136976",
-      appId: "1:1003247136976:web:76fe23a6735215b016eed5",
-      measurementId: "G-DT1LYGB63V"
-    };
+        .brand {
+            margin-left: 10px;
+            flex: 1;
+        }
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-  </script>
+        .brand-name {
+            font-size: 24px;
+            font-weight: 900;
+            font-style: italic;
+            color: #ffc400;
+            text-shadow: 0 2px 0 #bd8c00;
+        }
+
+        .brand-clover {
+            color: #16c96b;
+            font-size: 24px;
+        }
+
+        .brand-slogan {
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #20e579;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-box {
+            width: 100px;
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 196, 0, 0.3);
+            background: linear-gradient(145deg, rgba(0, 39, 20, 0.85), rgba(0, 19, 11, 0.95));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .balance-label {
+            font-size: 9px;
+            color: #9ea7a2;
+            font-weight: 700;
+        }
+
+        .balance-box strong {
+            font-size: 15px;
+            color: #fff;
+        }
+
+        .add-button {
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #28d36b, #0a9c46);
+            color: #fff;
+            font-size: 28px;
+            font-weight: 300;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(19, 212, 103, 0.35);
+        }
+
+        /* CONTEÚDO */
+        .content {
+            padding: 14px 12px 0;
+        }
+
+        .top-cards {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 8px;
+        }
+
+        .top-card {
+            height: 95px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 211, 105, 0.25);
+            background: linear-gradient(145deg, rgba(0, 36, 18, 0.95), rgba(0, 23, 12, 0.98));
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .top-card:active { transform: scale(0.97); }
+
+        .card-symbol { font-size: 22px; color: #ffc400; margin-bottom: 2px; }
+        .card-title { font-size: 11px; font-weight: 900; }
+        .card-subtitle { font-size: 9px; color: #858d89; }
+
+        .next-draw {
+            border: 1.5px solid #ff5a00;
+            background: radial-gradient(circle, rgba(79, 24, 0, 0.7), rgba(31, 8, 0, 0.8));
+            box-shadow: 0 0 12px rgba(255, 82, 0, 0.35);
+        }
+
+        .next-title { color: #ffc400; font-size: 10px; font-weight: 900; }
+        .next-date { display: flex; align-items: center; gap: 4px; font-size: 22px; font-weight: 900; }
+        .calendar-icon, .clock-icon { color: #ff8500; font-size: 16px; }
+        .next-time { display: flex; align-items: center; gap: 3px; color: #ffc400; font-size: 12px; }
+
+        .question-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #ffc400;
+            color: #111;
+            font-size: 14px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        /* PÓDIO */
+        .podium-area {
+            height: 140px;
+            margin-top: 10px;
+            background: radial-gradient(ellipse at center, rgba(255, 183, 0, 0.12), transparent 60%);
+        }
+
+        .podium {
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            font-weight: 900;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .second { width: 90px; height: 75px; background: linear-gradient(180deg, #d9e1e2, #6d797c 40%, #151b1d); }
+        .first { width: 110px; height: 100px; background: linear-gradient(180deg, #ffe98a, #e8a900 30%, #211200); z-index: 2; }
+        .third { width: 90px; height: 75px; background: linear-gradient(180deg, #ffd1a9, #a9653c 40%, #271207); }
+
+        .podium-top { font-size: 11px; margin-bottom: 2px; }
+        .podium-money { font-size: 15px; padding-bottom: 8px; }
+        .first .podium-money { font-size: 18px; color: #fff3a4; }
+        .crown { position: absolute; top: -28px; font-size: 32px; color: #ffd329; }
+
+        /* TÍTULO E TABELA */
+        .animals-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 12px 0 8px;
+            color: #3eff93;
+        }
+
+        .animals-heading h1 { font-size: 18px; font-weight: 900; }
+
+        .animal-table-wrapper { width: 100%; text-align: center; }
+        .animal-table {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+            border: 2px solid #8b7700;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* BOTÃO APOSTA */
+        .bet-button {
+            width: 100%;
+            max-width: 400px;
+            height: 60px;
+            margin: 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border-radius: 16px;
+            border: 1.5px solid #ffe36b;
+            background: linear-gradient(180deg, #ffd328 0%, #f3b800 55%, #d99500 100%);
+            color: #080d08;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(255, 203, 0, 0.5);
+        }
+
+        .bet-button:active { transform: scale(0.98); }
+        .dice { font-size: 26px; }
+        .bet-arrow { font-size: 28px; }
+
+        /* NAVEGAÇÃO INFERIOR */
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: linear-gradient(180deg, #001c0e, #000e08);
+            border-top: 1px solid rgba(0, 255, 115, 0.2);
+            z-index: 100;
+        }
+
+        .nav-item {
+            border: 0;
+            background: transparent;
+            color: #9da6a3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+        }
+
+        .nav-icon { font-size: 20px; }
+        .nav-label { font-size: 10px; font-weight: 800; }
+        .nav-item.active { color: #2cff91; }
+
+        /* MENU LATERAL E MODAL */
+        .menu-overlay, .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 200;
+        }
+
+        .menu-overlay.open, .modal.show { opacity: 1; pointer-events: auto; }
+
+        .side-menu {
+            position: fixed;
+            top: 0; left: 0; bottom: 0;
+            width: 250px;
+            background: #001a0d;
+            border-right: 1px solid #1bcf70;
+            transform: translateX(-100%);
+            transition: transform 0.25s ease;
+            z-index: 201;
+            padding: 20px;
+        }
+
+        .side-menu.open { transform: translateX(0); }
+        .side-menu-header { display: flex; justify-content: space-between; align-items: center; color: #ffc400; font-size: 18px; margin-bottom: 20px; }
+        .side-menu-header button { background: none; border: 0; color: #fff; font-size: 24px; cursor: pointer; }
+        .side-option { width: 100%; padding: 12px; margin-bottom: 8px; border: 0; border-radius: 8px; background: rgba(0,78,40,0.5); color: #fff; text-align: left; font-weight: 700; cursor: pointer; }
+
+        .modal { display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 300; }
+        .modal-box { width: 100%; max-width: 320px; padding: 20px; border-radius: 16px; border: 1px solid #19d96d; background: #002212; text-align: center; position: relative; }
+        .modal-box h2 { color: #ffc400; margin-bottom: 10px; font-size: 18px; }
+        .modal-box p { color: #c8d1cd; font-size: 14px; margin-bottom: 16px; }
+        .modal-close { position: absolute; top: 10px; right: 12px; border: 0; background: none; color: #fff; font-size: 22px; cursor: pointer; }
+        .modal-action { padding: 8px 24px; border: 0; border-radius: 8px; background: #ffc400; color: #111; font-weight: 900; cursor: pointer; }
+    </style>
 </head>
-<body class="pb-24">
+<body>
+    <div class="app">
+        <!-- HEADER -->
+        <header class="header">
+            <button class="menu-button" id="menuButton" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="brand">
+                <div class="brand-name">Bicho777Bet <span class="brand-clover">♣</span></div>
+                <div class="brand-slogan">A SORTE É SEU MELHOR PALPITE!</div>
+            </div>
+            <div class="header-right">
+                <div class="balance-box">
+                    <span class="balance-label">SALDO</span>
+                    <strong id="balance">R$ 20,00</strong>
+                </div>
+                <button class="add-button" id="addButton">+</button>
+            </div>
+        </header>
 
-  <!-- Header Superior -->
-  <header class="p-3 bg-[#021106] border-b border-green-900/60 sticky top-0 z-40">
-    <div class="max-w-md mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <i class="fa-solid fa-bars text-yellow-500 text-xl cursor-pointer"></i>
-        <div>
-          <h1 class="text-xl font-black italic tracking-wider leading-none gold-gradient-text">
-            Bicho<span class="text-green-500">777</span>Bet
-          </h1>
-          <p class="text-[7px] text-green-400 font-bold tracking-widest uppercase mt-0.5">A sorte é seu melhor palpite!</p>
+        <!-- CONTEÚDO -->
+        <main class="content">
+            <!-- CARDS SUPERIORES -->
+            <section class="top-cards">
+                <button class="top-card" id="resultButton">
+                    <div class="card-symbol trophy">♜</div>
+                    <div class="card-title">RESULTADO</div>
+                    <div class="card-subtitle">Último sorteio</div>
+                </button>
+
+                <div class="top-card next-draw">
+                    <div class="next-title">PRÓXIMO SORTEIO:</div>
+                    <div class="next-date">
+                        <span class="calendar-icon">▣</span>
+                        <strong id="drawDate">20/08</strong>
+                    </div>
+                    <div class="next-time">
+                        <span class="clock-icon">◷</span>
+                        <span>Às</span>
+                        <strong id="drawTime">14:30</strong>
+                    </div>
+                </div>
+
+                <button class="top-card" id="howToPlay">
+                    <div class="question-icon">?</div>
+                    <div class="card-title">COMO JOGAR?</div>
+                    <div class="card-subtitle">Regras do jogo</div>
+                </button>
+            </section>
+
+            <!-- PÓDIO -->
+            <section class="podium-area">
+                <div class="podium">
+                    <div class="podium-item second">
+                        <div class="podium-top">2º LUGAR</div>
+                        <div class="podium-money">R$ 200,00</div>
+                    </div>
+                    <div class="podium-item first">
+                        <div class="crown">♛</div>
+                        <div class="podium-top">1º LUGAR</div>
+                        <div class="podium-money">R$ 500,00</div>
+                    </div>
+                    <div class="podium-item third">
+                        <div class="podium-top">3º LUGAR</div>
+                        <div class="podium-money">R$ 100,00</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TÍTULO -->
+            <div class="animals-heading">
+                <span class="heading-line">━━</span>
+                <h1>ESCOLHA SEU BICHO</h1>
+                <span class="heading-line">━━</span>
+            </div>
+
+            <!-- TABELA (IMAGEM) -->
+            <section class="animal-table-wrapper">
+                <img src="tabela_bichos.png" class="animal-table" alt="Tabela de bichos Bicho777Bet">
+            </section>
+
+            <!-- BOTÃO APOSTA -->
+            <button class="bet-button" id="betButton">
+                <span class="dice">⚄</span>
+                <span class="bet-text">FAÇA SUA APOSTA</span>
+                <span class="bet-arrow">›</span>
+            </button>
+        </main>
+
+        <!-- NAVEGAÇÃO INFERIOR -->
+        <nav class="bottom-navigation">
+            <button class="nav-item active" data-page="inicio">
+                <span class="nav-icon home-icon">⌂</span>
+                <span class="nav-label">Início</span>
+            </button>
+            <button class="nav-item" data-page="apostas">
+                <span class="nav-icon">▤</span>
+                <span class="nav-label">Minhas Apostas</span>
+            </button>
+            <button class="nav-item" data-page="resultados">
+                <span class="nav-icon graph-icon">╱</span>
+                <span class="nav-label">Resultados</span>
+            </button>
+            <button class="nav-item" data-page="perfil">
+                <span class="nav-icon profile-icon">●</span>
+                <span class="nav-label">Perfil</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- MENU LATERAL -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <aside class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <strong>Bicho777Bet</strong>
+            <button id="closeMenu">&times;</button>
         </div>
-      </div>
+        <button class="side-option">🏠 &nbsp; Início</button>
+        <button class="side-option">🎟️ &nbsp; Minhas Apostas</button>
+        <button class="side-option">🏆 &nbsp; Resultados</button>
+        <button class="side-option">👤 &nbsp; Perfil</button>
+        <button class="side-option">❓ &nbsp; Como Jogar</button>
+    </aside>
 
-      <div class="flex items-center gap-2">
-        <div class="bg-[#041a0d] border border-yellow-600/40 rounded-lg p-1.5 px-2.5 text-right">
-          <span class="text-[8px] text-gray-400 block font-bold leading-tight uppercase">Saldo</span>
-          <span class="text-xs font-black text-white" id="user-saldo">R$ 0,00</span>
+    <!-- MODAL REUTILIZÁVEL -->
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 id="modalTitle">Bicho777Bet</h2>
+            <p id="modalText">Conteúdo.</p>
+            <button class="modal-action" id="modalAction">OK</button>
         </div>
-        <button onclick="alert('Tela de Depósito')" class="bg-green-600 text-white font-black w-8 h-8 rounded-lg text-lg flex items-center justify-center shadow-md shadow-green-900/50">+</button>
-      </div>
-    </div>
-  </header>
-
-  <main class="max-w-md mx-auto p-3 space-y-4">
-
-    <!-- Indicadores do Sorteio -->
-    <div class="grid grid-cols-3 gap-2">
-      <div class="bg-[#04180c] border border-green-900/80 rounded-xl p-2 text-center flex flex-col justify-center items-center">
-        <i class="fa-solid fa-trophy text-yellow-500 text-base mb-0.5"></i>
-        <span class="text-[9px] font-extrabold text-white block">RESULTADO</span>
-        <span class="text-[7px] text-gray-400 block" id="res-p1">Último sorteio</span>
-      </div>
-
-      <div class="timer-box rounded-xl p-2 text-center flex flex-col justify-center items-center">
-        <span class="text-[7px] font-black text-yellow-500 uppercase tracking-wider block">PRÓXIMO SORTEIO</span>
-        <span class="text-[7px] font-bold text-orange-400 block">EM BREVE</span>
-        <span class="text-xs font-black text-yellow-400 font-mono leading-none mt-0.5">01:25</span>
-      </div>
-
-      <div class="bg-[#04180c] border border-green-900/80 rounded-xl p-2 text-center flex flex-col justify-center items-center">
-        <i class="fa-solid fa-circle-question text-yellow-500 text-base mb-0.5"></i>
-        <span class="text-[9px] font-extrabold text-white block">COMO JOGAR?</span>
-        <span class="text-[7px] text-gray-400 block">Regras do jogo</span>
-      </div>
     </div>
 
-    <!-- Título Centralizado -->
-    <div class="text-center my-2">
-      <span class="text-xs font-black text-green-400 tracking-wider uppercase">━━━ ESCOLHA SEU BICHO ━━━</span>
-    </div>
+    <script>
+        // Elementos Principais
+        const menuButton = document.getElementById("menuButton");
+        const closeMenu = document.getElementById("closeMenu");
+        const sideMenu = document.getElementById("sideMenu");
+        const menuOverlay = document.getElementById("menuOverlay");
 
-    <!-- Imagem Central da Tabela de Bichos -->
-    <div class="flex justify-center items-center">
-      <div class="bg-[#041a0d] p-1.5 rounded-2xl border-2 border-yellow-500/60 shadow-2xl max-w-full">
-        <img 
-          src="tabela-bichos.png" 
-          alt="Tabela do Jogo do Bicho" 
-          class="rounded-xl w-full h-auto block object-cover shadow-inner max-h-[380px]"
-          onerror="this.onerror=null; this.src='https://i.ibb.co/6y4G1h4/tabela-bichos.png';"
-        />
-      </div>
-    </div>
+        const modal = document.getElementById("modal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalText = document.getElementById("modalText");
+        const modalClose = document.getElementById("modalClose");
+        const modalAction = document.getElementById("modalAction");
 
-    <!-- Botão Principal Faça sua Aposta -->
-    <div class="pt-2">
-      <button onclick="abrirModalTipoAposta()" class="w-full gold-btn py-4 rounded-2xl text-base uppercase font-black tracking-wider flex items-center justify-center gap-2 border-2 border-yellow-300">
-        <i class="fa-solid fa-dice text-xl"></i> FAÇA SUA APOSTA
-      </button>
-    </div>
-
-  </main>
-
-  <!-- POP-UP MODAL 1: Escolha do Tipo de Aposta -->
-  <div id="modal-tipo-aposta" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-5 w-full max-w-sm text-center relative shadow-2xl">
-      <button onclick="fecharModal('modal-tipo-aposta')" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg font-bold">✕</button>
-      
-      <i class="fa-solid fa-clover text-yellow-400 text-3xl mb-2"></i>
-      <h3 class="text-lg font-black text-white uppercase mb-1">Tipo de Aposta</h3>
-      <p class="text-xs text-gray-300 mb-5">Escolha a modalidade em que deseja apostar:</p>
-
-      <div class="space-y-3">
-        <button onclick="selecionarModalidade('GRUPO')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
-          <div>
-            <span class="font-black text-yellow-400 block text-sm">GRUPO</span>
-            <span class="text-[10px] text-gray-300">Escolha um dos 25 Bichos (1 ao 25)</span>
-          </div>
-          <i class="fa-solid fa-chevron-right text-green-400"></i>
-        </button>
-
-        <button onclick="selecionarModalidade('DEZENA')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
-          <div>
-            <span class="font-black text-yellow-400 block text-sm">DEZENA</span>
-            <span class="text-[10px] text-gray-300">Escolha uma Dezena exata (00 a 99)</span>
-          </div>
-          <i class="fa-solid fa-chevron-right text-green-400"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- POP-UP MODAL 2: Seleção Visual do Número e Valor -->
-  <div id="modal-selecao-numero" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-3">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-4 w-full max-w-sm relative shadow-2xl max-h-[90vh] flex flex-col">
-      
-      <button onclick="fecharModal('modal-selecao-numero')" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg font-bold">✕</button>
-      
-      <div class="text-center mb-3">
-        <span class="bg-green-900/80 text-yellow-400 text-[10px] font-extrabold px-3 py-1 rounded-full border border-yellow-500/30 uppercase" id="modal-titulo-modalidade">GRUPO</span>
-        <h3 class="text-xs font-black text-white mt-1">SELECIONE O SEU PALPITE</h3>
-      </div>
-
-      <!-- Container de Grade de Seleção (com rolagem suave) -->
-      <div class="overflow-y-auto max-h-[45vh] pr-1 mb-3 scrollbar-thin">
-        <div id="grid-opcoes" class="grid grid-cols-2 gap-1.5">
-          <!-- Gerado dinamicamente via JS -->
-        </div>
-      </div>
-
-      <!-- Resumo do Palpite Selecionado -->
-      <div class="bg-[#010b04] border border-green-700/60 rounded-xl p-2 text-center mb-3">
-        <span class="text-[9px] text-gray-400 block font-bold uppercase">Palpite Selecionado:</span>
-        <span id="palpite-display" class="text-sm font-black text-yellow-400">Nenhum</span>
-      </div>
-
-      <!-- Seleção de Valor -->
-      <div class="mb-3">
-        <label class="block text-[10px] text-gray-300 font-bold mb-1">Valor da Aposta (R$):</label>
-        <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="setValorAposta(3, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 3</button>
-          <button onclick="setValorAposta(5, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 5</button>
-          <button onclick="setValorAposta(10, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 10</button>
-          <button onclick="setValorAposta(20, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 20</button>
-        </div>
-      </div>
-
-      <!-- Botão Confirmar -->
-      <button onclick="salvarAposta()" class="w-full gold-btn py-3 rounded-xl text-xs uppercase font-black tracking-wider">
-        CONFIRMAR E REGISTRAR APOSTA
-      </button>
-    </div>
-  </div>
-
-  <!-- Navegação Inferior -->
-  <nav class="fixed bottom-0 left-0 right-0 nav-bottom p-2 z-40">
-    <div class="max-w-md mx-auto flex justify-around items-center text-center">
-      <a href="#" class="text-green-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-house text-base mb-0.5"></i> Início
-      </a>
-      <a href="#" onclick="alert('Histórico de apostas registrado no banco de dados.')" class="text-gray-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-receipt text-base mb-0.5"></i> Minhas Apostas
-      </a>
-      <a href="#" class="text-gray-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-chart-line text-base mb-0.5"></i> Resultados
-      </a>
-      <a href="admin.html" class="text-gray-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-user-gear text-base mb-0.5"></i> Admin
-      </a>
-    </div>
-  </nav>
-
-  <script>
-    const bichos = [
-      "Avestruz", "Águia", "Burro", "Borboleta", "Cachorro",
-      "Cabra", "Carneiro", "Camelo", "Cobra", "Coelho",
-      "Cavalo", "Elefante", "Galo", "Gato", "Jacaré",
-      "Leão", "Macaco", "Porco", "Pavão", "Peru",
-      "Touro", "Tigre", "Urso", "Veado", "Vaca"
-    ];
-
-    let tipoSelecionado = '';
-    let palpiteSelecionado = '';
-    let valorSelecionado = 0;
-    const jogadorId = "jogador01";
-
-    window.onload = function() {
-      conectarFirebase();
-    };
-
-    function conectarFirebase() {
-      // Monitorar Saldo
-      db.ref('usuarios/' + jogadorId + '/saldo').on('value', (snapshot) => {
-        const saldo = snapshot.val();
-        if (saldo !== null) {
-          document.getElementById('user-saldo').innerText = `R$ ${parseFloat(saldo).toFixed(2)}`;
-        } else {
-          db.ref('usuarios/' + jogadorId).set({ saldo: 100 });
-          document.getElementById('user-saldo').innerText = "R$ 100,00";
+        // Controle do Menu Lateral
+        function toggleMenu(open) {
+            sideMenu.classList.toggle("open", open);
+            menuOverlay.classList.toggle("open", open);
         }
-      });
 
-      // Monitorar Resultados
-      db.ref('resultado').on('value', (snapshot) => {
-        const res = snapshot.val();
-        if (res && res.p1) {
-          document.getElementById('res-p1').innerText = "1º Prêmio: " + res.p1;
+        menuButton.addEventListener("click", () => toggleMenu(true));
+        closeMenu.addEventListener("click", () => toggleMenu(false));
+        menuOverlay.addEventListener("click", () => toggleMenu(false));
+
+        // Controle do Modal
+        function showModal(title, text) {
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+            modal.classList.add("show");
         }
-      });
-    }
 
-    function abrirModalTipoAposta() {
-      document.getElementById('modal-tipo-aposta').classList.remove('hidden');
-    }
+        function closeModal() {
+            modal.classList.remove("show");
+        }
 
-    function fecharModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
+        modalClose.addEventListener("click", closeModal);
+        modalAction.addEventListener("click", closeModal);
+        modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
 
-    function selecionarModalidade(tipo) {
-      tipoSelecionado = tipo;
-      palpiteSelecionado = '';
-      fecharModal('modal-tipo-aposta');
-      
-      const tituloModal = document.getElementById('modal-titulo-modalidade');
-      const gridContainer = document.getElementById('grid-opcoes');
-      document.getElementById('palpite-display').innerText = 'Nenhum';
-      
-      gridContainer.innerHTML = '';
-
-      if (tipo === 'GRUPO') {
-        tituloModal.innerText = 'APOSTA EM GRUPO (01 a 25)';
-        gridContainer.className = "grid grid-cols-2 gap-1.5";
-
-        bichos.forEach((bicho, idx) => {
-          const numGrupo = String(idx + 1).padStart(2, '0');
-          const btn = document.createElement('button');
-          btn.className = "grid-item text-left p-2 rounded-lg flex items-center justify-between text-xs font-bold text-gray-200 hover:border-yellow-400";
-          btn.innerHTML = `<span><strong class="text-yellow-400">${numGrupo}</strong> - ${bicho}</span>`;
-          btn.onclick = () => selecionarItem(numGrupo + ' - ' + bicho, btn);
-          gridContainer.appendChild(btn);
+        // Handlers de Ações Principais
+        document.getElementById("resultButton").addEventListener("click", () => {
+            showModal("Último Sorteio", "Consulte os resultados do sorteio mais recente.");
         });
 
-      } else {
-        tituloModal.innerText = 'APOSTA EM DEZENA (00 a 99)';
-        gridContainer.className = "grid grid-cols-5 gap-1.5";
+        document.getElementById("howToPlay").addEventListener("click", () => {
+            showModal("Como Jogar?", "Escolha seu grupo, selecione os números e confirme a aposta antes do horário limite.");
+        });
 
-        for (let i = 0; i <= 99; i++) {
-          const numDezena = String(i).padStart(2, '0');
-          const btn = document.createElement('button');
-          btn.className = "grid-item p-2 rounded-lg text-center text-xs font-bold text-yellow-400 hover:border-yellow-400";
-          btn.innerText = numDezena;
-          btn.onclick = () => selecionarItem(numDezena, btn);
-          gridContainer.appendChild(btn);
-        }
-      }
+        document.getElementById("betButton").addEventListener("click", () => {
+            showModal("Faça sua Aposta", "Escolha um grupo ou animal na tabela acima para iniciar o bilhete.");
+        });
 
-      document.getElementById('modal-selecao-numero').classList.remove('hidden');
-    }
+        document.getElementById("addButton").addEventListener("click", () => {
+            showModal("Adicionar Saldo", "Área de depósito via Pix.");
+        });
 
-    function selecionarItem(valor, elemento) {
-      palpiteSelecionado = valor;
-      document.getElementById('palpite-display').innerText = valor;
+        // Navegação Inferior
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach(item => {
+            item.addEventListener("click", function() {
+                navItems.forEach(n => n.classList.remove("active"));
+                this.classList.add("active");
 
-      document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('selected'));
-      elemento.classList.add('selected');
-    }
+                const page = this.dataset.page;
+                if (page === "inicio") window.scrollTo({ top: 0, behavior: "smooth" });
+                if (page === "apostas") showModal("Minhas Apostas", "Histórico de bilhetes ativos e antigos.");
+                if (page === "resultados") showModal("Resultados", "Tabela completa com todos os sorteios do dia.");
+                if (page === "perfil") showModal("Perfil", "Dados da conta e extrato de transações.");
+            });
+        });
 
-    function setValorAposta(val, elemento) {
-      valorSelecionado = val;
-      document.querySelectorAll('.btn-valor').forEach(b => {
-        b.classList.remove('border-yellow-400', 'bg-yellow-500', 'text-black');
-        b.classList.add('bg-[#052b12]', 'text-white');
-      });
-      elemento.classList.add('border-yellow-400', 'bg-yellow-500', 'text-black');
-    }
-
-    function salvarAposta() {
-      if (!palpiteSelecionado) {
-        alert('Por favor, selecione seu palpite na lista!');
-        return;
-      }
-
-      if (valorSelecionado <= 0) {
-        alert('Por favor, selecione o valor da aposta!');
-        return;
-      }
-
-      const novaApostaRef = db.ref('apostas').push();
-      novaApostaRef.set({
-        apostador: jogadorId,
-        tipo: tipoSelecionado,
-        palpite: palpiteSelecionado,
-        valor: valorSelecionado,
-        dataHora: Date.now()
-      }).then(() => {
-        fecharModal('modal-selecao-numero');
-        alert(`✅ Aposta registrada no Firebase com sucesso!\n\nModalidade: ${tipoSelecionado}\nPalpite: ${palpiteSelecionado}\nValor: R$ ${valorSelecionado},00`);
-
-        palpiteSelecionado = '';
-        valorSelecionado = 0;
-      }).catch((err) => {
-        alert('Erro ao gravar aposta: ' + err.message);
-      });
-    }
-  </script>
+        // Opções do Menu Lateral
+        document.querySelectorAll(".side-option").forEach(option => {
+            option.addEventListener("click", () => toggleMenu(false));
+        });
+    </script>
 </body>
 </html>
