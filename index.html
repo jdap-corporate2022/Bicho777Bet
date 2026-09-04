@@ -3,67 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bicho777Bet - A Sorte é Seu Melhor Palpite!</title>
+  <title>Bicho777Bet - Jogador</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap');
-    
-    * { -webkit-tap-highlight-color: transparent; }
-    body { 
-      background-color: #010803; 
-      color: #ffffff; 
-      font-family: 'Montserrat', sans-serif;
-    }
-    
-    .gold-gradient-text {
-      background: linear-gradient(180deg, #fff3a1 0%, #facc15 50%, #855800 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .timer-box {
-      background: radial-gradient(circle, #2d0a00 0%, #110300 100%);
-      border: 1.5px solid #ea580c;
-      box-shadow: 0 0 12px rgba(234, 88, 12, 0.4);
-    }
-
-    .nav-bottom {
-      background: linear-gradient(180deg, #031409 0%, #010602 100%);
-      border-top: 1px solid #14532d;
-    }
-
-    .gold-btn {
-      background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%);
-      color: #000000;
-      font-weight: 900;
-      box-shadow: 0 4px 15px rgba(250, 204, 21, 0.4);
-      transition: all 0.2s;
-    }
-    .gold-btn:active {
-      transform: scale(0.97);
-    }
-
-    .modal-overlay {
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(5px);
-    }
-
-    .grid-item {
-      background: #052b12;
-      border: 1px solid #15803d;
-      transition: all 0.2s;
-    }
-    .grid-item.selected {
-      background: #facc15 !important;
-      color: #000000 !important;
-      border-color: #facc15 !important;
-      font-weight: 900;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+    body { background-color: #010803; color: #ffffff; font-family: 'Montserrat', sans-serif; }
+    .gold-gradient { background: linear-gradient(180deg, #fff3a1 0%, #facc15 50%, #855800 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .gold-btn { background: linear-gradient(180deg, #facc15 0%, #ca8a04 100%); color: #000; font-weight: 900; }
     .card-dark { background-color: #03170a; border: 1px solid rgba(34, 197, 94, 0.2); }
   </style>
 
-  <!-- SDKs do Firebase -->
+  <!-- Firebase Compat SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -78,545 +29,130 @@
       appId: "1:1003247136976:web:76fe23a6735215b016eed5",
       measurementId: "G-DT1LYGB63V"
     };
-
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
   </script>
 </head>
-<body class="pb-24">
+<body class="p-3 max-w-md mx-auto pb-20">
 
-  <!-- Header Superior -->
-  <header class="p-3 bg-[#021106] border-b border-green-900/60 sticky top-0 z-40">
-    <div class="max-w-md mx-auto flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <i class="fa-solid fa-gem text-yellow-500 text-xl"></i>
-        <div>
-          <h1 class="text-xl font-black italic tracking-wider leading-none gold-gradient-text">
-            Bicho<span class="text-green-500">777</span>Bet
-          </h1>
-          <p class="text-[7px] text-green-400 font-bold tracking-widest uppercase mt-0.5">A sorte é seu melhor palpite!</p>
-        </div>
-      </div>
-
-      <!-- ÁREA VISITANTE (ANTES DE LOGAR) -->
-      <div id="area-visitante" class="flex items-center gap-1.5">
-        <button onclick="abrirModal('modal-login')" class="bg-green-900/60 border border-green-500 text-green-300 text-[11px] font-extrabold px-2.5 py-1.5 rounded-lg">
-          Entrar
-        </button>
-        <button onclick="abrirModal('modal-cadastro')" class="gold-btn text-[11px] font-black px-3 py-1.5 rounded-lg shadow-md">
-          CADASTRO
-        </button>
-      </div>
-
-      <!-- ÁREA USUÁRIO (APÓS LOGAR) -->
-      <div id="area-usuario" class="hidden flex items-center gap-2">
-        <img id="usr-avatar" src="" alt="Avatar" class="w-9 h-9 rounded-full border-2 border-yellow-400 bg-green-950 object-cover shadow-md">
-        
-        <div class="text-left">
-        <!--  <span id="usr-nome" class="text-xs font-black text-white block leading-none">Jogador</span> -->
-          <div class="bg-[#041a0d] border border-yellow-600/40 rounded px-1.5 py-0.5 mt-0.5 inline-block">
-            <span class="text-[8px] text-gray-400 font-bold">Saldo: </span>
-            <span id="user-saldo" class="text-xs font-black text-green-400">R$ 0,00</span>
-          </div>
-        </div>
-
-        <button onclick="fazerLogout()" title="Sair" class="text-red-400 hover:text-red-200 text-xs ml-1 p-1">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
-      </div>
+  <!-- IDENTIFICAÇÃO DO JOGADOR -->
+  <header class="card-dark p-3 rounded-2xl mb-4 flex justify-between items-center border-yellow-500/40">
+    <div>
+      <span class="text-[9px] text-gray-400 uppercase font-bold block">Jogador Atual:</span>
+      <input type="text" id="username" value="jogador01" onchange="conectarJogador()" class="bg-[#010b04] border border-green-700 rounded px-2 py-0.5 text-xs font-black text-yellow-400 w-28 focus:outline-none">
+    </div>
+    <div class="text-right">
+      <span class="text-[9px] text-gray-400 uppercase font-bold block">Saldo Disponível:</span>
+      <span id="user-saldo" class="text-lg font-black text-green-400">R$ 0,00</span>
     </div>
   </header>
 
-  <main class="max-w-md mx-auto p-3 space-y-4">
-
-    <!-- Banner de Alerta para Não Logados -->
-    <div id="banner-login-alerta" class="bg-yellow-500/10 border border-yellow-500/40 rounded-xl p-2.5 text-center text-xs text-yellow-300 font-bold">
-      <i class="fa-solid fa-circle-info mr-1"></i> Faça Login ou Cadastro para apostar!
-    </div>
-
-    <!-- Indicadores do Sorteio -->
+  <!-- RESULTADO OFICIAL EM TEMPO REAL -->
+  <section class="card-dark p-4 rounded-2xl mb-4 border-yellow-500/50 text-center">
+    <h2 class="text-xs font-black uppercase gold-gradient mb-2"><i class="fa-solid fa-trophy"></i> Último Sorteio Oficial</h2>
     <div class="grid grid-cols-3 gap-2">
-      <div class="bg-[#04180c] border border-green-900/80 rounded-xl p-2 text-center flex flex-col justify-center items-center">
-        <i class="fa-solid fa-trophy text-yellow-500 text-base mb-0.5"></i>
-        <span class="text-[9px] font-extrabold text-white block">RESULTADO</span>
-        <span id="res-ultimo-sorteio" class="text-[10px] font-black text-yellow-400 block mt-0.5">----</span>
+      <div class="bg-[#010b04] p-2 rounded-xl border border-green-800">
+        <span class="text-[9px] text-gray-400 block">1º Prêmio</span>
+        <span id="res-p1" class="text-sm font-black text-yellow-400">----</span>
       </div>
-
-      <div class="timer-box rounded-xl p-2 text-center flex flex-col justify-center items-center">
-        <span class="text-[7px] font-black text-yellow-500 uppercase tracking-wider block">PRÓXIMO SORTEIO</span>
-        <span class="text-[7px] font-bold text-orange-400 block">EM BREVE</span>
-        <span class="text-xs font-black text-yellow-400 font-mono leading-none mt-0.5">01:25</span>
+      <div class="bg-[#010b04] p-2 rounded-xl border border-green-800">
+        <span class="text-[9px] text-gray-400 block">2º Prêmio</span>
+        <span id="res-p2" class="text-sm font-black text-white">----</span>
       </div>
-
-      <div class="bg-[#04180c] border border-green-900/80 rounded-xl p-2 text-center flex flex-col justify-center items-center cursor-pointer" onclick="alert('Regras: Escolha Grupo (1 a 25) ou Dezena (00 a 99), selecione o valor e confirme a sua aposta!')">
-        <i class="fa-solid fa-circle-question text-yellow-500 text-base mb-0.5"></i>
-        <span class="text-[9px] font-extrabold text-white block">COMO JOGAR?</span>
-        <span class="text-[7px] text-gray-400 block">Regras do jogo</span>
+      <div class="bg-[#010b04] p-2 rounded-xl border border-green-800">
+        <span class="text-[9px] text-gray-400 block">3º Prêmio</span>
+        <span id="res-p3" class="text-sm font-black text-white">----</span>
       </div>
     </div>
+  </section>
 
-    <!-- Título Centralizado -->
-    <div class="text-center my-2">
-      <span class="text-xs font-black text-green-400 tracking-wider uppercase">━━━ ESCOLHA SEU BICHO ━━━</span>
+  <!-- MÓDULO DE APOSTA -->
+  <section class="card-dark p-4 rounded-2xl space-y-3">
+    <h3 class="text-xs font-black uppercase text-yellow-400"><i class="fa-solid fa-ticket"></i> Fazer Aposta</h3>
+    
+    <div>
+      <label class="block text-[10px] text-gray-300 font-bold mb-1">Tipo de Aposta:</label>
+      <select id="tipo-aposta" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-2.5 text-xs font-bold text-white">
+        <option value="Grupo">Grupo (1 a 25)</option>
+        <option value="Dezena">Dezena (00 a 99)</option>
+        <option value="Centena">Centena (000 a 999)</option>
+        <option value="Milhar">Milhar (0000 a 9999)</option>
+      </select>
     </div>
 
-    <!-- Imagem Central da Tabela de Bichos -->
-    <div class="flex justify-center items-center">
-      <div class="bg-[#041a0d] p-1.5 rounded-2xl border-2 border-yellow-500/60 shadow-2xl max-w-full">
-        <img 
-          src="tabela-bichos.png" 
-          alt="Tabela do Jogo do Bicho" 
-          class="rounded-xl w-full h-auto block object-cover shadow-inner"
-          onerror="this.onerror=null; this.src='https://i.ibb.co/6y4G1h4/tabela-bichos.png';"
-        />
-      </div>
+    <div>
+      <label class="block text-[10px] text-gray-300 font-bold mb-1">Seu Palpite:</label>
+      <input type="text" id="palpite" placeholder="Ex: 16 ou 5832" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-2.5 text-xs font-bold text-white">
     </div>
 
-    <!-- Botão Principal Faça sua Aposta -->
-    <div class="pt-2">
-      <button onclick="abrirModalTipoAposta()" class="w-full gold-btn py-4 rounded-2xl text-base uppercase font-black tracking-wider flex items-center justify-center gap-2 border-2 border-yellow-300">
-        <i class="fa-solid fa-dice text-xl"></i> FAÇA SUA APOSTA
-      </button>
+    <div>
+      <label class="block text-[10px] text-gray-300 font-bold mb-1">Valor da Aposta (R$):</label>
+      <input type="number" id="valor-aposta" placeholder="Ex: 5.00" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-2.5 text-xs font-bold text-green-400">
     </div>
 
-  </main>
-
-
-  <!-- ================= MODAL: CADASTRO ================= -->
-  <div id="modal-cadastro" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-5 w-full max-w-sm text-center relative shadow-2xl">
-      <button onclick="fecharModal('modal-cadastro')" class="absolute top-3 right-3 text-gray-400 hover:text-white font-bold">✕</button>
-      
-      <h3 class="text-lg font-black text-yellow-400 uppercase mb-1">Criar Conta</h3>
-      <p class="text-xs text-gray-300 mb-4">Preencha seus dados para se cadastrar</p>
-
-      <form onsubmit="cadastrarUsuario(event)" class="space-y-2.5 text-left">
-        <div>
-          <label class="block text-[10px] font-bold text-gray-300 mb-0.5">Nome Completo:</label>
-          <input type="text" id="cad-nome" required placeholder="Seu Nome" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] font-bold text-gray-300 mb-0.5">Telefone:</label>
-            <input type="text" id="cad-tel" required placeholder="(00) 00000-0000" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-gray-300 mb-0.5">CPF (Válido):</label>
-            <input type="text" id="cad-cpf" maxlength="14" required oninput="mascararEValidarCPF(this)" placeholder="000.000.000-00" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-            <span id="cpf-status" class="text-[8px] font-bold block mt-0.5"></span>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-[10px] font-bold text-gray-300 mb-0.5">E-mail:</label>
-          <input type="email" id="cad-email" required placeholder="seuemail@exemplo.com" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-[10px] font-bold text-gray-300 mb-0.5">Senha:</label>
-            <input type="password" id="cad-senha" required placeholder="******" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-          </div>
-          <div>
-            <label class="block text-[10px] font-bold text-gray-300 mb-0.5">Confirmar Senha:</label>
-            <input type="password" id="cad-confirma-senha" required placeholder="******" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2 text-xs text-white">
-          </div>
-        </div>
-
-        <button type="submit" class="w-full gold-btn py-3 rounded-xl text-xs font-black uppercase tracking-wider mt-2 shadow-lg">
-          FINALIZAR CADASTRO
-        </button>
-      </form>
-    </div>
-  </div>
-
-
-  <!-- ================= MODAL: LOGIN ================= -->
-  <div id="modal-login" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[#03170a] border-2 border-green-500/80 rounded-2xl p-5 w-full max-w-sm text-center relative shadow-2xl">
-      <button onclick="fecharModal('modal-login')" class="absolute top-3 right-3 text-gray-400 hover:text-white font-bold">✕</button>
-
-      <h3 class="text-lg font-black text-green-400 uppercase mb-1">Entrar na Conta</h3>
-      <p class="text-xs text-gray-300 mb-4">Informe seu CPF ou E-mail e senha</p>
-
-      <form onsubmit="fazerLogin(event)" class="space-y-3 text-left">
-        <div>
-          <label class="block text-[10px] font-bold text-gray-300 mb-1">E-mail ou CPF:</label>
-          <input type="text" id="login-id" required placeholder="E-mail ou CPF" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2.5 text-xs text-white">
-        </div>
-        <div>
-          <label class="block text-[10px] font-bold text-gray-300 mb-1">Senha:</label>
-          <input type="password" id="login-senha" required placeholder="******" class="w-full bg-[#010b04] border border-green-700 rounded-xl p-2.5 text-xs text-white">
-        </div>
-
-        <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider mt-2 shadow-lg">
-          ENTRAR
-        </button>
-      </form>
-    </div>
-  </div>
-
-
-  <!-- MODAL 1: Escolha do Tipo de Aposta -->
-  <div id="modal-tipo-aposta" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-5 w-full max-w-sm text-center relative shadow-2xl">
-      <button onclick="fecharModal('modal-tipo-aposta')" class="absolute top-3 right-3 text-gray-400 hover:text-white font-bold">✕</button>
-      
-      <i class="fa-solid fa-clover text-yellow-400 text-3xl mb-2"></i>
-      <h3 class="text-lg font-black text-white uppercase mb-1">Tipo de Aposta</h3>
-      <p class="text-xs text-gray-300 mb-5">Escolha a modalidade em que deseja apostar:</p>
-
-      <div class="space-y-3">
-        <button onclick="selecionarModalidade('GRUPO')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
-          <div>
-            <span class="font-black text-yellow-400 block text-sm">GRUPO</span>
-            <span class="text-[10px] text-gray-300">Escolha um dos 25 Bichos (1 ao 25)</span>
-          </div>
-          <i class="fa-solid fa-chevron-right text-green-400"></i>
-        </button>
-
-        <button onclick="selecionarModalidade('DEZENA')" class="w-full bg-[#052b12] border border-green-500 hover:border-yellow-400 p-3.5 rounded-xl text-left flex items-center justify-between">
-          <div>
-            <span class="font-black text-yellow-400 block text-sm">DEZENA</span>
-            <span class="text-[10px] text-gray-300">Escolha uma Dezena exata (00 a 99)</span>
-          </div>
-          <i class="fa-solid fa-chevron-right text-green-400"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL 2: Seleção Visual do Número e Valor -->
-  <div id="modal-selecao-numero" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-3">
-    <div class="bg-[#03170a] border-2 border-yellow-500/80 rounded-2xl p-4 w-full max-w-sm relative shadow-2xl max-h-[90vh] flex flex-col">
-      
-      <button onclick="fecharModal('modal-selecao-numero')" class="absolute top-3 right-3 text-gray-400 hover:text-white font-bold">✕</button>
-      
-      <div class="text-center mb-3">
-        <span class="bg-green-900/80 text-yellow-400 text-[10px] font-extrabold px-3 py-1 rounded-full border border-yellow-500/30 uppercase" id="modal-titulo-modalidade">GRUPO</span>
-        <h3 class="text-xs font-black text-white mt-1">SELECIONE O SEU PALPITE</h3>
-      </div>
-
-      <div class="overflow-y-auto max-h-[45vh] pr-1 mb-3 scrollbar-thin">
-        <div id="grid-opcoes" class="grid grid-cols-2 gap-1.5">
-          <!-- Gerado dinamicamente via JS -->
-        </div>
-      </div>
-
-      <div class="bg-[#010b04] border border-green-700/60 rounded-xl p-2 text-center mb-3">
-        <span class="text-[9px] text-gray-400 block font-bold uppercase">Palpite Selecionado:</span>
-        <span id="palpite-display" class="text-sm font-black text-yellow-400">Nenhum</span>
-      </div>
-
-      <div class="mb-3">
-        <label class="block text-[10px] text-gray-300 font-bold mb-1">Valor da Aposta (R$):</label>
-        <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="setValorAposta(3, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 3</button>
-          <button onclick="setValorAposta(5, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 5</button>
-          <button onclick="setValorAposta(10, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 10</button>
-          <button onclick="setValorAposta(20, this)" class="btn-valor bg-[#052b12] border border-green-700 text-white font-black py-2 rounded-lg text-xs">R$ 20</button>
-        </div>
-      </div>
-
-      <button onclick="salvarAposta()" class="w-full gold-btn py-3 rounded-xl text-xs uppercase font-black tracking-wider">
-        CONFIRMAR E REGISTRAR APOSTA
-      </button>
-    </div>
-  </div>
-
-  <!-- Navegação Inferior -->
-  <nav class="fixed bottom-0 left-0 right-0 nav-bottom p-2 z-40">
-    <div class="max-w-md mx-auto flex justify-around items-center text-center">
-      <a href="#" class="text-green-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-house text-base mb-0.5"></i> Início
-      </a>
-      <a href="#" onclick="alert('Funcionalidade de extrato de apostas em breve!')" class="text-gray-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-receipt text-base mb-0.5"></i> Minhas Apostas
-      </a>
-      <a href="#" onclick="alert('Resultados em tempo real atualizados no painel!')" class="text-gray-400 text-[9px] font-extrabold flex flex-col items-center">
-        <i class="fa-solid fa-chart-line text-base mb-0.5"></i> Resultados
-      </a>
-      
-    </div>
-  </nav>
-
+    <button onclick="enviarAposta()" class="w-full gold-btn py-3 rounded-xl text-xs font-black uppercase shadow-lg hover:opacity-90 transition">
+      CONFIRMAR APOSTA
+    </button>
+  </section>
 
   <script>
-    const bichos = [
-      "Avestruz", "Águia", "Burro", "Borboleta", "Cachorro",
-      "Cabra", "Carneiro", "Camelo", "Cobra", "Coelho",
-      "Cavalo", "Elefante", "Galo", "Gato", "Jacaré",
-      "Leão", "Macaco", "Porco", "Pavão", "Peru",
-      "Touro", "Tigre", "Urso", "Veado", "Vaca"
-    ];
-
-    let tipoSelecionado = '';
-    let palpiteSelecionado = '';
-    let valorSelecionado = 0;
-    let usuarioLogado = null;
+    let jogadorId = "jogador01";
 
     window.onload = function() {
-      // Verificar se existe usuario salvo no navegador
-      const cpfSalvo = localStorage.getItem("bicho777_user");
-      if (cpfSalvo) {
-        ouvirDadosUsuario(cpfSalvo);
-      }
-      ouvirResultadoOficial();
+      conectarJogador();
+      escutarResultados();
     };
 
-    function abrirModal(id) { document.getElementById(id).classList.remove('hidden'); }
-    function fecharModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-    // --- RECONHECIMENTO E VALIDAÇÃO DE CPF ---
-    function validarCPFMatematico(cpf) {
-      cpf = cpf.replace(/[^\d]+/g, '');
-      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-      let soma = 0, resto;
-      for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i-1, i)) * (11 - i);
-      resto = (soma * 10) % 11;
-      if ((resto === 10) || (resto === 11)) resto = 0;
-      if (resto !== parseInt(cpf.substring(9, 10))) return false;
-      soma = 0;
-      for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i-1, i)) * (12 - i);
-      resto = (soma * 10) % 11;
-      if ((resto === 10) || (resto === 11)) resto = 0;
-      if (resto !== parseInt(cpf.substring(10, 11))) return false;
-      return true;
-    }
-
-    function mascararEValidarCPF(input) {
-      let v = input.value.replace(/\D/g, "");
-      v = v.replace(/(\d{3})(\d)/, "$1.$2");
-      v = v.replace(/(\d{3})(\d)/, "$1.$2");
-      v = v.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-      input.value = v;
-
-      const status = document.getElementById('cpf-status');
-      const limpo = input.value.replace(/\D/g, "");
-
-      if (limpo.length === 11) {
-        if (validarCPFMatematico(limpo)) {
-          status.innerText = "✓ CPF Válido";
-          status.className = "text-[8px] font-bold block mt-0.5 text-green-400";
+    function conectarJogador() {
+      jogadorId = document.getElementById('username').value.trim() || "jogador01";
+      
+      // Ouvir saldo do jogador no Firebase em TEMPO REAL
+      db.ref('usuarios/' + jogadorId + '/saldo').on('value', (snapshot) => {
+        const saldo = snapshot.val();
+        if (saldo !== null) {
+          document.getElementById('user-saldo').innerText = `R$ ${parseFloat(saldo).toFixed(2)}`;
         } else {
-          status.innerText = "✕ CPF Inválido";
-          status.className = "text-[8px] font-bold block mt-0.5 text-red-400";
-        }
-      } else {
-        status.innerText = "";
-      }
-    }
-
-    // --- CADASTRO NO FIREBASE ---
-    function cadastrarUsuario(e) {
-      e.preventDefault();
-      const nome = document.getElementById('cad-nome').value.trim();
-      const tel = document.getElementById('cad-tel').value.trim();
-      const email = document.getElementById('cad-email').value.trim().toLowerCase();
-      const cpf = document.getElementById('cad-cpf').value.replace(/\D/g, "");
-      const senha = document.getElementById('cad-senha').value;
-      const confirmaSenha = document.getElementById('cad-confirma-senha').value;
-
-      if (!validarCPFMatematico(cpf)) return alert("Por favor, informe um CPF válido!");
-      if (senha !== confirmaSenha) return alert("As senhas não coincidem!");
-
-      const userRef = db.ref('usuarios/' + cpf);
-      userRef.get().then((snapshot) => {
-        if (snapshot.exists()) {
-          alert("Este CPF já está cadastrado!");
-        } else {
-          // Gerar Avatar 3D único usando o nome digitado
-          const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(nome)}`;
-
-          const novoUsuario = {
-            nome: nome,
-            telefone: tel,
-            email: email,
-            cpf: cpf,
-            senha: senha,
-            saldo: 0.00,
-            avatar: avatarUrl,
-            criadoEm: Date.now()
-          };
-
-          userRef.set(novoUsuario).then(() => {
-            alert("✅ Cadastro realizado com sucesso!");
-            fecharModal('modal-cadastro');
-            localStorage.setItem("bicho777_user", cpf);
-            ouvirDadosUsuario(cpf);
-          });
+          // Se não existir saldo no Firebase para este usuário, inicializa com 0
+          db.ref('usuarios/' + jogadorId).set({ saldo: 0 });
+          document.getElementById('user-saldo').innerText = "R$ 0,00";
         }
       });
     }
 
-    // --- LOGIN NO FIREBASE ---
-    function fazerLogin(e) {
-      e.preventDefault();
-      const id = document.getElementById('login-id').value.trim().toLowerCase();
-      const senha = document.getElementById('login-senha').value;
-
-      db.ref('usuarios').get().then((snapshot) => {
-        if (snapshot.exists()) {
-          const usuarios = snapshot.val();
-          let encontrado = null;
-
-          Object.keys(usuarios).forEach(key => {
-            const u = usuarios[key];
-            if ((u.email === id || u.cpf === id.replace(/\D/g, "")) && u.senha === senha) {
-              encontrado = u;
-            }
-          });
-
-          if (encontrado) {
-            fecharModal('modal-login');
-            localStorage.setItem("bicho777_user", encontrado.cpf);
-            ouvirDadosUsuario(encontrado.cpf);
-          } else {
-            alert("E-mail/CPF ou senha incorretos!");
-          }
-        } else {
-          alert("Nenhum usuário cadastrado!");
-        }
-      });
-    }
-
-    // --- ESCUTAR DADOS DO USUÁRIO LOGADO EM TEMPO REAL ---
-    function ouvirDadosUsuario(cpf) {
-      db.ref('usuarios/' + cpf).on('value', (snapshot) => {
-        const u = snapshot.val();
-        if (u) {
-          usuarioLogado = u;
-          document.getElementById('area-visitante').classList.add('hidden');
-          document.getElementById('area-usuario').classList.remove('hidden');
-
-          // Atualizar dados sem fallbacks errados
-          const primeiroNome = u.nome ? u.nome.trim().split(' ')[0] : 'Jogador';
-          document.getElementById('usr-nome').innerText = primeiroNome;
-          document.getElementById('user-saldo').innerText = `R$ ${parseFloat(u.saldo || 0).toFixed(2)}`;
-          document.getElementById('usr-avatar').src = u.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(primeiroNome)}`;
-
-          document.getElementById('banner-login-alerta').classList.add('hidden');
-        }
-      });
-    }
-
-    function ouvirResultadoOficial() {
+    function escutarResultados() {
+      // Ouvir resultado oficial atualizado pelo Admin
       db.ref('resultado').on('value', (snapshot) => {
         const res = snapshot.val();
-        if (res && res.p1) {
-          document.getElementById('res-ultimo-sorteio').innerText = res.p1;
+        if (res) {
+          document.getElementById('res-p1').innerText = res.p1 || "----";
+          document.getElementById('res-p2').innerText = res.p2 || "----";
+          document.getElementById('res-p3').innerText = res.p3 || "----";
         }
       });
     }
 
-    function fazerLogout() {
-      localStorage.removeItem("bicho777_user");
-      location.reload();
-    }
+    function enviarAposta() {
+      const tipo = document.getElementById('tipo-aposta').value;
+      const palpite = document.getElementById('palpite').value.trim();
+      const valor = parseFloat(document.getElementById('valor-aposta').value);
 
-    // --- FLUXO DE APOSTAS ---
-    function abrirModalTipoAposta() {
-      if (!usuarioLogado) {
-        alert('Por favor, faça login ou cadastre-se para apostar!');
-        abrirModal('modal-login');
-        return;
-      }
-      abrirModal('modal-tipo-aposta');
-    }
-
-    function selecionarModalidade(tipo) {
-      tipoSelecionado = tipo;
-      palpiteSelecionado = '';
-      fecharModal('modal-tipo-aposta');
-      
-      const tituloModal = document.getElementById('modal-titulo-modalidade');
-      const gridContainer = document.getElementById('grid-opcoes');
-      document.getElementById('palpite-display').innerText = 'Nenhum';
-      
-      gridContainer.innerHTML = '';
-
-      if (tipo === 'GRUPO') {
-        tituloModal.innerText = 'APOSTA EM GRUPO (01 a 25)';
-        gridContainer.className = "grid grid-cols-2 gap-1.5";
-
-        bichos.forEach((bicho, idx) => {
-          const numGrupo = String(idx + 1).padStart(2, '0');
-          const btn = document.createElement('button');
-          btn.className = "grid-item text-left p-2 rounded-lg flex items-center justify-between text-xs font-bold text-gray-200 hover:border-yellow-400";
-          btn.innerHTML = `<span><strong class="text-yellow-400">${numGrupo}</strong> - ${bicho}</span>`;
-          btn.onclick = () => selecionarItem(numGrupo + ' - ' + bicho, btn);
-          gridContainer.appendChild(btn);
-        });
-
-      } else {
-        tituloModal.innerText = 'APOSTA EM DEZENA (00 a 99)';
-        gridContainer.className = "grid grid-cols-5 gap-1.5";
-
-        for (let i = 0; i <= 99; i++) {
-          const numDezena = String(i).padStart(2, '0');
-          const btn = document.createElement('button');
-          btn.className = "grid-item p-2 rounded-lg text-center text-xs font-bold text-yellow-400 hover:border-yellow-400";
-          btn.innerText = numDezena;
-          btn.onclick = () => selecionarItem(numDezena, btn);
-          gridContainer.appendChild(btn);
-        }
+      if (!palpite || isNaN(valor) || valor <= 0) {
+        return alert("Preencha o palpite e um valor válido!");
       }
 
-      abrirModal('modal-selecao-numero');
-    }
-
-    function selecionarItem(valor, elemento) {
-      palpiteSelecionado = valor;
-      document.getElementById('palpite-display').innerText = valor;
-
-      document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('selected'));
-      elemento.classList.add('selected');
-    }
-
-    function setValorAposta(val, elemento) {
-      valorSelecionado = val;
-      document.querySelectorAll('.btn-valor').forEach(b => {
-        b.classList.remove('border-yellow-400', 'bg-yellow-500', 'text-black');
-        b.classList.add('bg-[#052b12]', 'text-white');
-      });
-      elemento.classList.add('border-yellow-400', 'bg-yellow-500', 'text-black');
-    }
-
-    function salvarAposta() {
-      if (!usuarioLogado) return alert('Faça login para apostar!');
-      if (!palpiteSelecionado) return alert('Por favor, selecione seu palpite!');
-      if (valorSelecionado <= 0) return alert('Por favor, selecione o valor da aposta!');
-
-      const saldoAtual = parseFloat(usuarioLogado.saldo || 0);
-      if (saldoAtual < valorSelecionado) {
-        return alert(`Saldo insuficiente! Seu saldo atual é R$ ${saldoAtual.toFixed(2)}.`);
-      }
-
-      // 1. Gravar aposta no Firebase Realtime Database
-      const apostaRef = db.ref('apostas').push();
-      const novaAposta = {
-        id: apostaRef.key,
-        apostador: usuarioLogado.nome,
-        cpf: usuarioLogado.cpf,
-        tipo: tipoSelecionado,
-        palpite: palpiteSelecionado,
-        valor: valorSelecionado,
-        data: new Date().toLocaleString('pt-BR'),
-        timestamp: Date.now()
-      };
-
-      apostaRef.set(novaAposta).then(() => {
-        // 2. Debitar o saldo do jogador
-        const novoSaldo = saldoAtual - valorSelecionado;
-        db.ref('usuarios/' + usuarioLogado.cpf).update({ saldo: novoSaldo });
-
-        fecharModal('modal-selecao-numero');
-        alert(`✅ Aposta registrada com sucesso!\n\nModalidade: ${novaAposta.tipo}\nPalpite: ${novaAposta.palpite}\nValor: R$ ${novaAposta.valor},00`);
-
-        palpiteSelecionado = '';
-        valorSelecionado = 0;
-      });
+      // 1. Gravar aposta no nó /apostas
+      const novaApostaRef = db.ref('apostas').push();
+      novaApostaRef.set({
+        apostador: jogadorId,
+        tipo: tipo,
+        palpite: palpite,
+        valor: valor,
+        dataHora: Date.now()
+      }).then(() => {
+        alert("✅ Aposta enviada com sucesso!");
+        document.getElementById('palpite').value = "";
+        document.getElementById('valor-aposta').value = "";
+      }).catch((err) => alert("Erro ao apostar: " + err.message));
     }
   </script>
 </body>
