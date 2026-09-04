@@ -19,7 +19,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
-    // Configuração oficial do seu projeto Bicho777Bet
+    // Configuração do Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAYvktDU3VVX1J7UHXmA1yY9b6o_imllr0",
       authDomain: "bicho777bet.firebaseapp.com",
@@ -53,7 +53,7 @@
           <label class="block text-[11px] font-bold text-gray-300 mb-1">Senha:</label>
           <input type="password" id="admin-pass" placeholder="123456" class="w-full bg-[#010b04] border border-green-600 rounded-xl p-3 text-sm font-bold text-white focus:outline-none focus:border-yellow-400">
         </div>
-        <button onclick="autenticarAdmin()" class="w-full gold-btn py-3 rounded-xl text-sm font-black uppercase tracking-wider mt-2 shadow-lg">
+        <button onclick="autenticarAdmin()" class="w-full gold-btn py-3 rounded-xl text-sm font-black uppercase tracking-wider mt-2 shadow-lg hover:opacity-90 transition">
           ENTRAR NO PAINEL
         </button>
       </div>
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="flex gap-2">
-        <button onclick="logoutAdmin()" class="bg-red-900/60 hover:bg-red-800 border border-red-500 text-red-200 text-xs font-bold px-3 py-2 rounded-xl">
+        <button onclick="logoutAdmin()" class="bg-red-900/60 hover:bg-red-800 border border-red-500 text-red-200 text-xs font-bold px-3 py-2 rounded-xl transition">
           <i class="fa-solid fa-right-from-bracket"></i> Sair
         </button>
       </div>
@@ -127,7 +127,7 @@
         </div>
       </div>
 
-      <button onclick="salvarSorteioFirebase()" class="w-full gold-btn py-3 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg">
+      <button onclick="salvarSorteioFirebase()" class="w-full gold-btn py-3 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg hover:opacity-90 transition">
         PUBLICAR RESULTADO NO FIREBASE
       </button>
     </section>
@@ -145,7 +145,7 @@
           <input type="number" id="novo-saldo" placeholder="Ex: 500" class="w-full bg-[#010b04] border border-green-600 rounded-lg p-2 text-xs font-bold text-green-400">
         </div>
       </div>
-      <button onclick="atualizarSaldoFirebase()" class="w-full bg-green-600 hover:bg-green-500 text-white py-2.5 rounded-xl text-xs font-black uppercase">
+      <button onclick="atualizarSaldoFirebase()" class="w-full bg-green-600 hover:bg-green-500 text-white py-2.5 rounded-xl text-xs font-black uppercase transition">
         ATUALIZAR SALDO
       </button>
     </section>
@@ -192,7 +192,7 @@
         sessionStorage.setItem("admin_autenticado", "true");
         exibirPainelAdmin();
       } else {
-        alert("❌ Acesso negado!");
+        alert("❌ Usuário ou senha incorretos!");
       }
     }
 
@@ -209,7 +209,7 @@
     }
 
     function iniciarOuvintesFirebase() {
-      // Sincronizar apostas do banco em tempo real
+      // Sincronizar apostas em tempo real
       db.ref('apostas').on('value', (snapshot) => {
         const apostas = snapshot.val();
         const tbody = document.getElementById('tabela-apostas-body');
@@ -231,8 +231,8 @@
             tr.className = "border-b border-green-950 hover:bg-[#052b12]/50";
             tr.innerHTML = `
               <td class="p-2 font-bold text-white">${ap.apostador || 'Jogador'}</td>
-              <td class="p-2 font-bold text-yellow-400">${ap.tipo}</td>
-              <td class="p-2 font-black text-white">${ap.palpite}</td>
+              <td class="p-2 font-bold text-yellow-400">${ap.tipo || '-'}</td>
+              <td class="p-2 font-black text-white">${ap.palpite || '-'}</td>
               <td class="p-2 font-bold text-green-400">R$ ${val.toFixed(2)}</td>
               <td class="p-2 text-gray-300">R$ ${(val * 0.7).toFixed(2)}</td>
               <td class="p-2 text-gray-300">R$ ${(val * 0.3).toFixed(2)}</td>
@@ -249,10 +249,10 @@
         document.getElementById('arrecadacao-ciclo').innerText = `R$ ${total.toFixed(2)}`;
         document.getElementById('qtd-apostas-ciclo').innerText = `${qtd} apostas registradas`;
         document.getElementById('receita-adm').innerText = `R$ ${(total * 0.3).toFixed(2)}`;
-        document.getElementById('pote-premios').innerText = `R$ ${(500 + total * 0.7).toFixed(2)}`;
+        document.getElementById('pote-premios').innerText = `R$ ${(total * 0.7).toFixed(2)}`;
       });
 
-      // Sincronizar resultados salvos
+      // Sincronizar resultados salvos no banco
       db.ref('resultado').on('value', (snapshot) => {
         const res = snapshot.val();
         if (res) {
@@ -264,13 +264,13 @@
     }
 
     function salvarSorteioFirebase() {
-      const p1 = document.getElementById('premio-1').value;
-      if (!p1) return alert("Digite o 1º prêmio!");
+      const p1 = document.getElementById('premio-1').value.trim();
+      if (!p1) return alert("Digite ao menos o 1º prêmio!");
       
       db.ref('resultado').set({
         p1: p1,
-        p2: document.getElementById('premio-2').value || "----",
-        p3: document.getElementById('premio-3').value || "----",
+        p2: document.getElementById('premio-2').value.trim() || "----",
+        p3: document.getElementById('premio-3').value.trim() || "----",
         atualizadoEm: Date.now()
       }).then(() => alert("✅ Resultado publicado no Firebase com sucesso!"));
     }
@@ -278,14 +278,14 @@
     function atualizarSaldoFirebase() {
       const user = document.getElementById('user-id').value.trim();
       const saldo = parseFloat(document.getElementById('novo-saldo').value);
-      if (!user || isNaN(saldo)) return alert("Preencha o jogador e o valor!");
+      if (!user || isNaN(saldo)) return alert("Preencha o ID/Nome do jogador e o valor!");
 
       db.ref('usuarios/' + user).update({ saldo: saldo })
-        .then(() => alert(`✅ Saldo do jogador ${user} atualizado para R$ ${saldo.toFixed(2)}!`));
+        .then(() => alert(`✅ Saldo do jogador "${user}" atualizado para R$ ${saldo.toFixed(2)}!`));
     }
 
     function removerApostaFirebase(key) {
-      if (confirm("Remover esta aposta do banco de dados?")) {
+      if (confirm("Deseja realmente remover esta aposta do banco de dados?")) {
         db.ref('apostas/' + key).remove();
       }
     }
